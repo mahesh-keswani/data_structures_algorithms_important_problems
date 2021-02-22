@@ -32,3 +32,23 @@ def countSubsetWithSumK(array, k):
 
         
     return dp[-1][-1]
+
+
+# check if it is possible to divide the array into two subsets such that their sum is equal
+def equalSumPartition(arr):
+    '''
+        let s1 = sum(subset1), s2 = sum(subset2), S = sum(whole array)
+        As, s1 + s2 = S, we want s1 = s2, therefore, s1 + s1 = S, therefore S = 2s1,
+        i.e if and only if S is even this task is possible, else not.
+        Now idea is, if there exist one subset with sum S / 2, then other subset's sum will be automatically S - S/2
+    '''
+    sumOfArr = sum(arr)
+
+    if sumOfArr % 2 != 0:
+        return False
+    half = sumOfArr // 2
+
+    isSubsetWithSumHalfPresent = subsetWithSumK(arr, half)
+    if isSubsetWithSumHalfPresent != 0:
+        return True
+    return False
