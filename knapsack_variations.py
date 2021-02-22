@@ -88,3 +88,15 @@ def findTheTwoSubsetsWithMinDiff(arr):
             print(minDiff)
 
     return minDiff
+
+# Count the number of 2 subsets which can be formed from array, such that their diff = k 
+def countTheSubsetsWithDiffK(arr, k):
+    '''
+        As s1 + s2 = S, s1 - s2 = k, therefore, when you solve these linear equations, 2s1 = (S + k)
+        Therefore, s1 = (S + k) / 2, Now we just need to count the number of subsets with sum=s1
+    '''
+    sumOfArr = sum(arr)
+    s1 = ( sumOfArr + k ) // 2
+
+    return countSubsetWithSumK(arr, s1)
+
