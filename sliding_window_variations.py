@@ -1,3 +1,5 @@
+from collections import deque
+
 def maxSumWithWindowK(arr, k):
     maxSoFar = sum(arr[:k])
     currentSum = maxSoFar
