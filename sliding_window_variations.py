@@ -50,3 +50,31 @@ def findMaxInEveryWindow(arr, k):
 
         # Add current element at the rear of Qi
         myDeque.append(i)
+
+def findLargestSubarrayWithSumK(arr, k):
+    i = 0
+    j = 1
+    curSum = arr[i] + arr[j]
+    maxWindowSize = -float("inf")
+    # arr = [2, 1, 3, 4, 0, 1]
+    # 
+    while j < len(arr):
+        print(curSum, maxWindowSize)
+        if curSum < k:
+            j += 1
+            if j == len(arr):
+                break
+            curSum += arr[j]
+        elif curSum > k:
+            curSum -= arr[i]
+            i += 1
+        else:
+            maxWindowSize = max(maxWindowSize, j - i + 1)
+
+            # Now moving forward, looking for larger window size
+            j += 1
+            if j == len(arr):
+                break
+            curSum += arr[j]
+
+    return maxWindowSize
