@@ -73,7 +73,8 @@ def numberOfIslands(arr):
 def isValidNode(x, y, arr, visited):
     return x >=0 and x < len(visited) and y >= 0 and y < len(visited[0]) and not visited[x][y] and (arr[x][y] == 'P' or arr[x][y] == 'E')
 
-def bfs(arr, x, y, visited, distances):
+# By default assuming the valid directions are up, right, down, left
+def bfs(arr, x, y, visited, distances, dx = [-1, 0, 1, 0], dy = [0, 1, 0, -1]):
     queue = [ [x, y] ]
     distances[x][y] = 0
     visited[x][y] = True
@@ -84,8 +85,6 @@ def bfs(arr, x, y, visited, distances):
         y = currentNode[1]
         d = distances[x][y]
 
-        dx = [-1, 0, 1, 0]
-        dy = [0, 1, 0, -1]
         for i in range(4):
             newX = x + dx[i]
             newY = y + dy[i]
