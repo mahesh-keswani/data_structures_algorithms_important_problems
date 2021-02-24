@@ -67,3 +67,61 @@ def findingSizeOfEveryRiver(arr):
 def numberOfIslands(arr):
     islands_sizes = findingSizeOfEveryRiver(arr)
     return len(islands_sizes)
+
+# =======================================================================================================
+
+def isValidNode(x, y, arr, visited):
+    return x >=0 and x < len(visited) and y >= 0 and y < len(visited[0]) and not visited[x][y] and (arr[x][y] == 'P' or arr[x][y] == 'E')
+
+def bfs(arr, x, y, visited, distances):
+    queue = [ [x, y] ]
+    distances[x][y] = 0
+    visited[x][y] = True
+
+    while len(queue):
+        currentNode = queue.pop(0)
+        x = currentNode[0]
+        y = currentNode[1]
+        d = distances[x][y]
+
+        dx = [-1, 0, 1, 0]
+        dy = [0, 1, 0, -1]
+        for i in range(4):
+            newX = x + dx[i]
+            newY = y + dy[i]
+
+            if isValidNode(newX, newY, arr, visited):
+                distances[newX][newY] = d + 1
+                visited[newX][newY] = True
+                queue.append( [newX, newY] )
+    
+'''
+    arr = [
+    ['S', 'P', 'P', 'P', 'P'],
+    ['T', 'P', 'T', 'P', 'P'],
+    ['T', 'P', 'P', 'P', 'P'],
+    ['P', 'T', 'E', 'T', 'T'],
+    ['P', 'T', 'P', 'T', 'T']
+
+    S = Source, T = tree, E = End, P = path, we can only travel through P
+    Task: To find out shortest path from [0,0] to [3,2]
+    # Expected output: 5
+'''
+def findShortestPathFromSourceToDest(arr, srcx, srcy, destx, desty):
+    rows = len(arr)
+    cols = len(arr[0])
+
+    visited = [ [False for col in range(cols)] for row in range(rows)]
+    distances = [ [0 for col in range(cols)] for row in range(rows) ]
+
+    bfs(arr, srcx, srcy, visited, distances)
+
+    return distances[destx][desty]
+
+
+
+
+
+
+
+
