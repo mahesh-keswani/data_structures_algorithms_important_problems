@@ -49,3 +49,21 @@ def findingSizeOfEveryRiver(arr):
                 river_sizes.append(count)
 
     return river_sizes
+
+# Counting the number of islands in grid
+'''
+    arr = [
+    [1, 0, 0, 1, 1],
+    [0, 1, 0, 1, 0],
+    [0, 1, 0, 0, 0],
+    [0, 1, 1, 0, 1],
+    [0, 1, 0, 0, 1]
+]
+ 1 means part of island and 0 means river
+ Expected output: 4
+
+ Idea is, use the code for finding the river sizes, and the length of the river_sizes will be = number of islands
+'''
+def numberOfIslands(arr):
+    islands_sizes = findingSizeOfEveryRiver(arr)
+    return len(islands_sizes)
