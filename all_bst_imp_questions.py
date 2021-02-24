@@ -41,8 +41,13 @@ class BST:
             return
         
         self.left, self.right = self.right, self.left
-        self.left.invertTreee()
-        self.right.invertTreee()
+        # if self.left exists
+        if self.left:
+            self.left.invertTreee()
+
+        # if self.right exists
+        if self.right:
+            self.right.invertTreee()
 
     def recursivePreorder(self):
         if self is None:
@@ -87,7 +92,31 @@ class BST:
         print(self.value)
         
         
-    
 
+'''
+    10
+   /  \
+  7     12
+ / \   /  \
+6   8 11   13
+'''
+root = BST(10)
+root.insert(7)
+root.insert(6)
+root.insert(8)
+root.insert(12)
+root.insert(11)
+root.insert(13)
+
+print("Inorder")
+root.recursiveInorder()
+
+print("Preorder")
+root.recursivePreorder()
+
+print("Postorder")
+root.recursivePostorder()
+
+print( root.search(11) )
 
                 
