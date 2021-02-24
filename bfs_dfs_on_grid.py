@@ -117,7 +117,38 @@ def findShortestPathFromSourceToDest(arr, srcx, srcy, destx, desty):
 
     return distances[destx][desty]
 
+# =======================================================================================================
 
+def validFuncForKnight(x, y, arr, visited):
+    return x >=0 and x < len(visited) and y >= 0 and y < len(visited[0]) and not visited[x][y]
+
+'''
+    arr = [
+    [0,  0, 0, 0,  T,  0],
+    [0,  S, 0, 0,  0,  0],
+    [0,  0, 0, 0,  0,  0],
+    [0,  0, 0, 0,  0,  0],
+    [0,  0, 0, 0,  0,  0],
+    [0,  0, 0, 0,  0,  0]    
+]
+    Expected output: 2
+
+'''
+
+def findMinMovesForKnightToMoveFromSrcToDest(arr, srcx, srcy, destx, desty):
+    rows = len(arr)
+    cols = len(arr[0])
+
+    visited = [ [False for col in range(cols)] for row in range(rows)]
+    distances = [ [0 for col in range(cols)] for row in range(rows) ]
+
+    # If at any time, knight is at position [x, y], then these are the valid moves for the knight
+    dx = [-2, -1, 1, 2, 2, 1, -1, -2]
+    dy = [1, 2, 2, 1, -1, -2, -2, -1]
+    bfs(arr, srcx, srcy, visited, distances, dx = dx, dy = dy, validationFunc = validFuncForKnight)
+        
+    return distances[destx][desty]
+    
 
 
 
