@@ -90,9 +90,42 @@ class BST:
             self.right.recursivePostorder()
 
         print(self.value)
-        
-        
 
+    def iterativeInorder(self):
+        if self is None:
+            return
+
+        stack = []
+        currentNode = self
+
+        while len(stack) or currentNode:
+
+            if currentNode is not None:
+                stack.append(currentNode)
+                currentNode = currentNode.left
+            else:
+                currentNode = stack.pop()
+                print(currentNode.value)
+                currentNode = currentNode.right
+
+    def iterativePreorder(self):
+        if self is None:
+            return
+
+        stack = []
+        currentNode = self
+
+        while len(stack) or currentNode:
+
+            if currentNode is not None:
+                print(currentNode.value)
+                stack.append(currentNode)
+                currentNode = currentNode.left
+            else:
+                currentNode = stack.pop()
+                currentNode = currentNode.right
+        
+        
 '''
     10
    /  \
@@ -119,4 +152,8 @@ root.recursivePostorder()
 
 print( root.search(11) )
 
-                
+print(" Iterative Inorder ")
+root.iterativeInorder()
+
+print(" Iterative Preoder ")
+root.iterativePreorder()
