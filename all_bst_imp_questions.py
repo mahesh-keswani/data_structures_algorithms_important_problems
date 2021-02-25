@@ -156,6 +156,42 @@ class BST:
         for node in reversed(ansStack):
             print(node.value)
 
+    '''
+        Here, we will do level order traversal, i.e maintain a queue in which every element will
+        contain [distance, currentNode].
+        distance is, whenever we go left, we do distance.parent - 1, for right distance.parent + 1
+        distance of root is 0, in below example, distance of 7 is -1, for 8, it is 0.
+        Also we will maintain dictionary, where key will be the distance and value will be list of all node
+        at that distance.
+    '''
+    
+    def verticalOrderTraversal(self):
+        queue = [  [0, self] ]
+        distsToNodes = {}
+
+        while len(queue):
+            currentPair = queue.pop(0)
+            distanceOfParent = currentPair[0]
+            node = currentPair[1]
+
+            # checking if distnace already exists in dictionary
+            if distanceOfParent in distsToNodes:
+                distsToNodes[distanceOfParent].append( node.value )
+            else:
+                # if not exists, then create a new list of node
+                distsToNodes[distanceOfParent] = [node.value]
+
+            # if left exists, then add that node to the queue
+            if node.left:
+                queue.append( [distanceOfParent - 1, node.left] )
+
+            if node.right:
+                queue.append( [distanceOfParent + 1, node.right] )
+
+        sortTheDictByDistances = dict( sorted(distsToNodes.items(), key = lambda item :item[0] ) )
+        for distance in sortTheDictByDistances:
+            print(distance, ":", sortTheDictByDistances[distance])
+
         
         
 '''
@@ -189,3 +225,6 @@ root.iterativeInorder()
 
 print(" Iterative Preoder ")
 root.iterativePreorder()
+
+print("Vertical order traversal")
+root.verticalOrderTraversal()
