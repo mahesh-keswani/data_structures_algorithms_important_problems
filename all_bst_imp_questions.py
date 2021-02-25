@@ -192,6 +192,34 @@ class BST:
         for distance in sortTheDictByDistances:
             print(distance, ":", sortTheDictByDistances[distance])
 
+    '''
+        Idea is, use the vertical order traversal from above, and just update the dictionary only if distance not
+        exist in it. 
+    '''
+    def topView(self):
+        queue = [  [0, self] ]
+        distsToNodes = {}
+
+        while len(queue):
+            currentPair = queue.pop(0)
+            distanceOfParent = currentPair[0]
+            node = currentPair[1]
+
+            # checking if distnace not exists in dictionary, then add it, else igore it
+            if distanceOfParent not in distsToNodes:
+                distsToNodes[distanceOfParent] = node.value
+
+            # if left exists, then add that node to the queue
+            if node.left:
+                queue.append( [distanceOfParent - 1, node.left] )
+
+            if node.right:
+                queue.append( [distanceOfParent + 1, node.right] )
+
+        sortTheDictByDistances = dict( sorted(distsToNodes.items(), key = lambda item :item[0] ) )
+        for distance in sortTheDictByDistances:
+            print(distance, ":", sortTheDictByDistances[distance])
+
         
         
 '''
@@ -228,3 +256,6 @@ root.iterativePreorder()
 
 print("Vertical order traversal")
 root.verticalOrderTraversal()
+
+print("Top view of binary tree")
+root.topView()
