@@ -251,7 +251,37 @@ class BST:
         for distance in sortTheDictByDistances:
             print(distance, ":", sortTheDictByDistances[distance])
 
+
+    '''
+        idea is: path with max sum can be either left branch or right branch or left branch + right node + root
+        e.g in below tree, 10                    10               10 
+                          /                     /                 / \
+                         7                     7                 7   12 is valid path 
+                        / \                   /
+                       6   8 is invalid path, 6 is valid path,
+                                               
+        At every time, if node is none, return [maxPathSumAsBranch, maxPathSumAsTriangle]
         
+    '''
+
+def maxPathSum(node):
+    if node is None:
+        return [0, 0]
+
+    leftMaxBranchSumChild, leftMaxBranchSumIncludingRoot = maxPathSum(node.left)
+
+    rightMaxBranchSumChild, rightMaxBranchSumIncludingRoot = maxPathSum(node.right)
+    
+    maxSumAsBranchChild = max(leftMaxBranchSumChild, rightMaxBranchSumChild)
+
+    maxBranchIncludingRoot = max(maxSumAsBranchChild + node.value, node.value)
+
+    maxSumAsTriangle = max(maxBranchIncludingRoot, leftMaxBranchSumChild + rightMaxBranchSumChild + node.value)
+
+    maxSum = max(leftMaxBranchSumIncludingRoot, rightMaxBranchSumIncludingRoot, maxSumAsTriangle)
+
+    return maxBranchIncludingRoot, maxSum
+            
         
 '''
     10
