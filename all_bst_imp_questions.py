@@ -251,6 +251,36 @@ class BST:
         for distance in sortTheDictByDistances:
             print(distance, ":", sortTheDictByDistances[distance])
 
+    def spiralOrderTraversal(self):
+        if self is None:
+            return
+
+        currentNode = self
+        # 10 12 
+        stack1 = [currentNode]
+        stack2 = []
+
+        while len(stack1) or len(stack2):
+            while len(stack1):
+                currentNode = stack1.pop()
+                print(currentNode.value)
+                
+                if currentNode.left:
+                    stack2.append(currentNode.left)
+
+                if currentNode.right:
+                    stack2.append(currentNode.right)
+
+            while len(stack2):
+                currentNode = stack2.pop()
+                print(currentNode.value)
+
+                if currentNode.right:
+                    stack1.append(currentNode.right)
+
+                if currentNode.left:
+                    stack1.append(currentNode.left)
+
 
     '''
         idea is: path with max sum can be either left branch or right branch or left branch + right node + root
@@ -323,3 +353,9 @@ root.topView()
 
 print("Bottom view of binary tree")
 root.bottomView()
+
+print("Max path sum")
+print(maxPathSum(root))
+
+print("Spiral Order Traversal")
+root.spiralOrderTraversal()
