@@ -124,6 +124,38 @@ class BST:
             else:
                 currentNode = stack.pop()
                 currentNode = currentNode.right
+
+    
+    '''
+        Idea is: The order of postorder is Left, Right, Root, but when you reverse it
+        it becomes: root, right, left ( similar to preorder ), just left and right are reversed
+        Therefore we will use this idea for postorder
+    '''
+    def iterativePostorder(self):
+        if self is None:
+            return
+
+        ansStack = []
+        tempStack = []
+
+        currentNode = self
+        while len(tempStack) or currentNode:
+
+            if currentNode is not None:
+                # Adding root
+                ansStack.append(currentNode)
+                tempStack.append(currentNode)
+                # Going right
+                currentNode = currentNode.right
+            else:
+                currentNode = tempStack.pop()
+                # Going left
+                currentNode = currentNode.left
+
+        # Again reversing stack, for order Left, right, node
+        for node in reversed(ansStack):
+            print(node.value)
+
         
         
 '''
