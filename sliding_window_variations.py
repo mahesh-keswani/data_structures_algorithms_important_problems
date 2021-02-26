@@ -80,3 +80,62 @@ def findLargestSubarrayWithSumK(arr, k):
             curSum += arr[j]
 
     return maxWindowSize
+
+
+def longestStringWithKUniqueChars(string, k):
+    charCount = {}
+    i = 0
+    j = 0
+
+    maxLenght = -float("inf") 
+    # aacbbb
+    # 
+    while j < len(string):
+        currentChar = string[j]
+
+        if string[j] not in charCount:
+            charCount[ string[j] ] = 1
+        else:
+            charCount[ string[j] ] += 1
+                
+        if len(charCount) > k:
+            while len(charCount) != k:
+                charCount[ string[i] ] -= 1
+
+                if charCount[ string[i] ] == 0:
+                    del charCount[ string[i] ]
+                else:
+                     i += 1
+                     
+        maxLenght = max(maxLenght, j - i)
+            
+        j += 1
+        
+    return maxLenght
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
