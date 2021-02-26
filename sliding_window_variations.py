@@ -81,7 +81,6 @@ def findLargestSubarrayWithSumK(arr, k):
 
     return maxWindowSize
 
-
 def longestStringWithKUniqueChars(string, k):
     charCount = {}
     i = 0
@@ -106,17 +105,42 @@ def longestStringWithKUniqueChars(string, k):
                     del charCount[ string[i] ]
                 else:
                      i += 1
-                     
+                                 
         maxLenght = max(maxLenght, j - i)
             
         j += 1
         
     return maxLenght
 
+def longestSubstringAllUniqueChars(string):
+    charCount = {a:1, b:1, c:1}
+    i, j = 0, 0
+    maxLength = -float("inf")
+    # abcad
+    while j < len(string):
+        currentChar = string[j]
 
+        if currentChar not in charCount:
+            charCount[ currentChar ] = 1
+        else:
+            charCount[ currentChar ] += 1
 
+        # at every time check, if len of dictionary is less than window size, then character has occured which is repeated
+        # in substring, so we have to start decreasing window until it is equal = len(dictionary)
+        # i.e all the characters in window size are unique
+        if len(charCount) < (j - i + 1):
+            while len(charCount) != (j - i + 1):
+                charCount[ string[i] ] -= 0
 
+                if charCount[ string[i] ] == 0:
+                    del charCount[ string[i] ]
+                i += 1
+                
+        maxLength = max( maxLength, j - i )
 
+        j += 1
+
+    return maxLength
 
 
 
