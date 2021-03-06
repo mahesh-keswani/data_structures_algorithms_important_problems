@@ -320,7 +320,20 @@ def height(node):
     rightHeight = height(node.right)
 
     return max(leftHeight, rightHeight) + 1
-        
+
+
+def diameter(node):
+    if node is None:
+        return 0
+
+    leftHeight = height(node.left)
+    rightHeight = height(node.right)
+
+    leftDiameter = diameter(node.left)
+    rightDiameter = diameter(node.right)
+
+    return max(leftDiameter, rightDiameter, leftHeight + rightHeight + 1)
+
 '''
     10
    /  \
@@ -370,3 +383,6 @@ root.spiralOrderTraversal()
 
 print("Height")
 print(height(root))
+
+print("Diameter")
+print(diameter(root))
