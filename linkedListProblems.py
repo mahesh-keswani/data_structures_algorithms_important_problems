@@ -66,7 +66,18 @@ class SinglyLL:
             
         # if loop is present, then p will be returned, else one of the above condition will fail and will return False
         return False
+    
+    def detectStartOfLoop(self):
+        p = self.detectLoop()
+        if not p:
+            return "No loop present"
 
+        q = self.head
+        while p != q:
+            q = q.next
+            p = p.next
+
+        return p
     
 '''
     1-2-3-4-5-6
@@ -82,4 +93,6 @@ singlyLL.insert(1).insert(2).insert(3).insert(4).insert(5).insert(6).insert(7).i
 singlyLL.createLoop(5, 8)
 # singlyLL.printList()
 
-print( singlyLL.detectLoop() )
+print( singlyLL.detectLoop().value )
+
+print(singlyLL.detectStartOfLoop().value)
