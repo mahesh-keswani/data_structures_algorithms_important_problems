@@ -311,7 +311,15 @@ def maxPathSum(node):
     maxSum = max(leftMaxBranchSumIncludingRoot, rightMaxBranchSumIncludingRoot, maxSumAsTriangle)
 
     return maxBranchIncludingRoot, maxSum
-            
+
+def height(node):
+    if node is None:
+        return 0
+
+    leftHeight = height(node.left)
+    rightHeight = height(node.right)
+
+    return max(leftHeight, rightHeight) + 1
         
 '''
     10
@@ -359,3 +367,6 @@ print(maxPathSum(root))
 
 print("Spiral Order Traversal")
 root.spiralOrderTraversal()
+
+print("Height")
+print(height(root))
