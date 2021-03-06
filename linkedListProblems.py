@@ -78,6 +78,22 @@ class SinglyLL:
             p = p.next
 
         return p
+
+        
+    def removeLoop(self):
+        p = self.detectLoop()
+        if not p:
+            return "No loop present"
+
+        q = self.head
+        while True:
+            q = q.next
+
+            if p.next == q:
+                break
+            p = p.next
+
+        p.next = None
     
 '''
     1-2-3-4-5-6
@@ -96,3 +112,6 @@ singlyLL.createLoop(5, 8)
 print( singlyLL.detectLoop().value )
 
 print(singlyLL.detectStartOfLoop().value)
+
+singlyLL.removeLoop()
+singlyLL.printList()
