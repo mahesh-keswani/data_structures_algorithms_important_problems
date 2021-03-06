@@ -48,7 +48,24 @@ class SinglyLL:
 
         # adding loop here
         endingNode.next = startingNode
-                
+
+    def detectLoop(self):
+        if self.head is None:
+            return
+
+        p = self.head
+        q = self.head
+
+        # if p is none or q is none or q.next is none then there is no loop in the list
+        while p is not None and q is not None and q.next is not None:
+            if p == q:
+                return p
+            
+            p = p.next
+            q = q.next.next
+
+        # if loop is present, then p will be returned, else one of the above condition will fail and will return False
+        return False    
 '''
     1-2-3-4-5-6
             |  |
@@ -58,8 +75,9 @@ class SinglyLL:
 singlyLL = SinglyLL()
 
 singlyLL.insert(1).insert(2).insert(3).insert(4).insert(5).insert(6).insert(7).insert(8)
-
 # singlyLL.printList()
 
 singlyLL.createLoop(5, 8)
 # singlyLL.printList()
+
+print( singlyLL.detectLoop() )
