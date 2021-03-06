@@ -41,7 +41,30 @@ def minCostToConnectRopes(array):
         
     return overAllCost
 
+def findKClosestToX(arr, k, X):
+    maxHeap = []
+    for i in range(k):
+        diff = abs(arr[i] - X)
+        # using the difference as the key, inorder to maintain the heap and value as the element
+        # as internally, heapq creates minHeap, therefore multiplying distance with -1
+        heap.heappush(maxHeap, [-diff, arr[i]])
+
+    # [-2, 5], [-1, 6], [0, 7]
+    for i in range(k, len(arr)):
+        num = arr[i]
+        diff = abs(num - X)
+
+        if diff < (-1 * maxHeap[0][0]):
+            pop = heap.heappop(maxHeap)
+            heap.heappush(maxHeap, [-diff, arr[i]])
+
+    print(maxHeap)
+
 array = [8, 5, 7, 2, 3]
 print( findKthLargestElement(array, 2) )
 
 print( minCostToConnectRopes(array) )
+
+
+arr = [5, 6, 7, 8, 9]
+findKClosestToX(arr, 3, 7)
