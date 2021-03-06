@@ -58,14 +58,16 @@ class SinglyLL:
 
         # if p is none or q is none or q.next is none then there is no loop in the list
         while p is not None and q is not None and q.next is not None:
+            p = p.next
+            q = q.next.next
+            
             if p == q:
                 return p
             
-            p = p.next
-            q = q.next.next
-
         # if loop is present, then p will be returned, else one of the above condition will fail and will return False
-        return False    
+        return False
+
+    
 '''
     1-2-3-4-5-6
             |  |
