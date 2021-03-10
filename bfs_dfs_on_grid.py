@@ -149,8 +149,78 @@ def findMinMovesForKnightToMoveFromSrcToDest(arr, srcx, srcy, destx, desty):
         
     return distances[destx][desty]
     
+# ======================================================================================================
+
+def isValidXO(matrix, i, j):
+    return i >= 0 and i < len(matrix) and j >= 0 and j < len(matrix[0]) and matrix[i][j] == 'O'
+
+def dfsOnXO(matrix, x, y):
+    # Ind means invalid
+    matrix[x][y] = 'Ind'
+
+    dx = [-1, 0, 1, 0]
+    dy = [0, 1, 0, -1]
+
+    for i in range(4):
+        newX = x + dx[i]
+        newY = y + dy[i]
+
+        if isValidXO(matrix, newX, newY):
+            dfsOnXO(matrix, newX, newY)
+
+def convertOsToXWhichAreCompletelySurroundedByX(matrix):
+    '''
+        Idea is, traverse all the boundries, and at every boundry if O is encountered, then it means this is not valid
+        O (as it is not surrounded by X in all four directions), therefore mark it as invalid, also mark all the O's
+        associated with it as invalid using dfs
+    '''
+    rows = len(matrix)
+    cols = len(matrix[0])
+    
+    # top row
+    for i in range(0, cols):
+        if matrix[0][i] == 'O':
+            # matrix, i, j
+            dfsOnXO(matrix, 0, i)
+
+    # last column
+    for i in range(0, rows):
+        if matrix[i][cols - 1] == 'O':
+            dfsOnXO(matrix, i, cols - 1)
+
+    # bottom row
+    for i in range(0, cols):
+        if matrix[rows - 1][i] == 'O':
+            dfsOnXO(matrix, rows - 1, i)
+
+    # left column
+    for i in range(0, rows):
+        if matrix[i][0] == 'O':
+            dfsOnXO(matrix, i, 0)
 
 
+    # Now all the invalid O's will be marked as Invalid, therefore we have to now convert all the valid O's to X
+    # and mark again back the Invalid as O
+    for i in range(rows):
+        for j in range(cols):
+            if matrix[i][j] == 'Ind':
+                matrix[i][j] = 'O'
+            elif matrix[i][j] == 'O':
+                matrix[i][j] = 'X'
+
+    for row in matrix:
+        print(row)
+
+matrix = [
+    ['X', 'O', 'X', 'X', 'X', 'X'],
+    ['X', 'O', 'X', 'X', 'O', 'X'],
+    ['X', 'X', 'X', 'O', 'O', 'X'],
+    ['O', 'X', 'X', 'X', 'X', 'X'],
+    ['X', 'X', 'X', 'O', 'X', 'O'],
+    ['O', 'O', 'X', 'O', 'O', 'O']
+]
+
+convertOsToXWhichAreCompletelySurroundedByX(matrix)
 
 
 
