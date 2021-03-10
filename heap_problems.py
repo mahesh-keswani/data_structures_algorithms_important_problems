@@ -85,6 +85,34 @@ def kSortedArray(arr, k):
 
     print(ans)
 
+'''
+    For this the naive approach could be, store all the element-count pair in dictionary, and then sort if using
+    value as key, this could result in O(dlogd) where d = number of distinct elements.
+    But we can use heap, store all the [count, element] pair in it, key will be the count of element,
+    and then pop the top k elements, it will result in O(klogd + d), as To remove the top of heap O(log d)
+    time is required, so if k elements are removed then O(k log d) time is required and
+    to traverse the distinct elements O(d) time is required.
+'''
+def topKFrequentElements(arr, k):
+    elementToCount = {}
+    for num in arr:
+        if num not in elementToCount:
+            elementToCount[num] = 1
+        else:
+            elementToCount[num] += 1
+
+    if k > len(elementToCount):
+        print("Invalid input")
+    else:
+        maxHeap = [(value, key) for key, value in elementToCount.items()]
+
+        largest = heap.nlargest(k, maxHeap)
+ 
+        # Print the top k elements
+        for i in range(k):
+            print(largest[i][1], end =" ")
+
+
 array = [8, 5, 7, 2, 3]
 print( findKthLargestElement(array, 2) )
 
@@ -98,3 +126,9 @@ findKClosestToX(arr, 3, 7)
 
 kSortedArr = [6, 5, 3, 2, 8, 10, 9]
 kSortedArray(kSortedArr, 3)
+
+
+
+arr = [ 3, 1, 4, 4, 5, 2, 6, 1 ]
+k = 2
+topKFrequentElements(arr, k)
