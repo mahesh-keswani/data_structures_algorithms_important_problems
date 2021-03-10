@@ -60,11 +60,41 @@ def findKClosestToX(arr, k, X):
 
     print(maxHeap)
 
+'''
+    k sorted array means, each element at index i will have it's position in range of (i - k) to
+    (i + k) in sorted array. we can simply use some sorting algorithm on entire array and achieve
+    sorted array in O(nlogn) time, but we can do it in O(nlogk) since we know array is k-sorted.
+
+    Idea is, first we will store (k + 1) elements in minHeap, when k+1 element will occur, we will pop min element
+    and append it to the ans, and insert k+1 element in minheap
+'''
+def kSortedArray(arr, k):
+    minHeap = []
+    ans = []
+    for i in range(k + 1):
+        heap.heappush(minHeap, arr[i])
+
+    # After this loop we will have (n - k) elements in ans
+    for i in range(k + 1, len(arr)):
+        ans.append( heap.heappop(minHeap) )
+        heap.heappush(minHeap, arr[i])
+
+    # Now inserting remaining elements in ans
+    while len(minHeap):
+        ans.append( heap.heappop(minHeap) )
+
+    print(ans)
+
 array = [8, 5, 7, 2, 3]
 print( findKthLargestElement(array, 2) )
+
 
 print( minCostToConnectRopes(array) )
 
 
 arr = [5, 6, 7, 8, 9]
 findKClosestToX(arr, 3, 7)
+
+
+kSortedArr = [6, 5, 3, 2, 8, 10, 9]
+kSortedArray(kSortedArr, 3)
