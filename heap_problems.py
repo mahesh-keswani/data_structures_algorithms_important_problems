@@ -1,9 +1,11 @@
+
+import heapq as heap
+import math
+
 '''
     Idea is: store the first k element in the min heap, and when traversing from (k + 1) to n
     pop one element from heap if root of heap is less than current element and insert new element in heap 
 '''
-import heapq as heap
-
 def findKthLargestElement(array, k):
     minHeap = []
     # inserting first k elements in heap
@@ -113,6 +115,21 @@ def topKFrequentElements(arr, k):
             print(largest[i][1], end =" ")
 
 
+def kClosestPointToOrigin(coords, k):
+    '''
+        coords: array of [x, y] co-oridnates, k:integer
+        First creating (distance, coord) pair, and then storing all pairs in heap, this will take O(n) time
+        Then we are taking smallest k pair, for each pair it will take O(logn) time and we are doing it for
+        k times, therefore it will take O(klogn), therefore total time will be O(n + klogn)
+    '''
+    # Storing (distance, coord) pairs to minHeap
+    minHeap = [ ( math.sqrt(x**2 + y**2), [x, y] ) for (x, y) in coords]
+    ksmallest = heap.nsmallest(k, minHeap)
+
+    for distance, coord in ksmallest:
+        print(distance, coord)
+
+        
 array = [8, 5, 7, 2, 3]
 print( findKthLargestElement(array, 2) )
 
@@ -132,3 +149,8 @@ kSortedArray(kSortedArr, 3)
 arr = [ 3, 1, 4, 4, 5, 2, 6, 1 ]
 k = 2
 topKFrequentElements(arr, k)
+
+
+coords = [ [1, 2], [-1, 4], [3, 4], [1, 0], [5, -2] ]
+k = 2
+kClosestPointToOrigin(coords, k)
