@@ -334,6 +334,27 @@ def diameter(node):
 
     return max(leftDiameter, rightDiameter, leftHeight + rightHeight + 1)
 
+def sortedArrayToBalancedBST(arr):
+    n = len(arr)
+    if n == 0:
+        return None
+    elif n == 1:
+        return BST(arr[0])
+    else:
+        '''
+            Idea is, take the middle element and make it as root (if n is even then take mid + 1 as root),
+            then recursively call this function on left subarray and make it as left child of root, and
+            recursively call this function on right subarray and make it as right child of root
+        '''
+        
+        root = BST( arr[n // 2] )
+        root.left = sortedArrayToBalancedBST( arr[: n//2] )
+        
+        # n//2 + 1 because, n//2 is root, and right subtree starts from n//2 + 1 to n
+        root.right = sortedArrayToBalancedBST( arr[n//2 + 1:] )
+
+        return root
+
 '''
     10
    /  \
@@ -386,3 +407,8 @@ print(height(root))
 
 print("Diameter")
 print(diameter(root))
+
+print("Sorted array to BST")
+arr = [1, 2, 3, 4, 5]
+root = sortedArrayToBalancedBST(arr)
+root.recursiveInorder()
