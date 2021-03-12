@@ -58,3 +58,52 @@ def checkIfLinkedListIsPalindrome(head):
         p = p.next
         
     return True
+
+
+'''
+    Implement max stack: First way can be, if we implement stack using linked list, then in every node we will
+    create three fields: value, oldMax, next
+'''
+
+class Node:
+
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+        self.oldMax = None
+
+class MaxStack:
+
+    def __init__(self):
+        self.head = None
+        self.max = None
+        
+    def push(self, x):
+        newNode = Node(x)
+
+        if self.head is None:
+            self.head = newNode
+        else:
+            # setting the newnode as head
+            newNode.next = self.head
+            self.head = newNode
+
+        if self.max is None or newNode.value > self.max:
+            newNode.oldMax = self.max
+            self.max = newNode.value
+
+    def pop(self):
+        if self.head is None:
+            return None
+
+        temp = self.head
+        self.head = temp.next
+        temp.next = None
+
+        if temp.oldMax is not None:
+            self.max = temp.oldMax
+            
+        return temp.value
+
+    def maxValue(self):
+        return self.max
