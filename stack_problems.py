@@ -124,3 +124,58 @@ maxstack.push(4)
 maxstack.push(5)
 
 maxstack.printStack()
+
+'''
+    Another way of implementing max stack, Idea is, create a helperStack, pop top element from stack and
+    insert into helperStack, now for every other element in stack, pop one element, compare with the top
+    element of helperStack till it is smaller than top and push elements of helperStack again back to stack.
+
+    helperStack will always keep track of max element.
+'''
+
+class Maxstack:
+
+    def __init__(self):
+        self.stack = []
+        self.helperStack = []
+
+    def push(self, x):
+        self.stack.append(x)
+
+        if len(self.helperStack) == 0:
+            self.helperStack.append(x)
+        else:
+            # checking if top element of stack > top element of helperStack
+            if self.stack[-1] > self.helperStack[-1]:
+                self.helperStack.append( x )
+
+        return self
+
+    def pop(self):
+        if len(stack) == 0:
+            return None
+
+        # if top of the stack == top of helper stack (max element), we should pop from helperStack also
+        # as it's next top will be 2nd max
+        if self.stack[-1] == self.helperStack[-1]:
+            helperStackPop = self.helperStack.pop()
+
+        stackPop = self.stack.pop()
+        
+        return stackPop
+
+    def maxStack(self):
+        if not len(self.stack):
+            return None
+
+        return self.helperStack[-1]
+
+    def printStack(self):
+        print(self.stack)
+        print(self.helperStack)
+        
+
+stack = Maxstack()
+stack.push(4).push(3).push(10).push(7)
+
+stack.printStack()
