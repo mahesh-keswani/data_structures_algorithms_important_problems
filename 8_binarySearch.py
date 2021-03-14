@@ -37,22 +37,28 @@ def binarySearchHelper(array, target, left, right):
     Modularizing code for reusability for different problems based on binary search
 '''
 class BinarySearch:
-    def searchOnAscending(self, array, key):
+    def search(self, array, key, ascending = True):
         start = 0
         end = len(array) - 1
 
-        while low <= high:
+        while start <= end:
             mid = start + (end - start) // 2
 
             if array[mid] == key:
                 return mid
             elif key < array[mid]:
-                end = mid - 1
+                if ascending:
+                    end = mid - 1
+                else:
+                    start = mid + 1
             else:
-                start = mid + 1
+                if ascending:
+                    start = mid + 1
+                else:
+                    end = mid - 1
 
         return -1
-    
+
 
 
 
