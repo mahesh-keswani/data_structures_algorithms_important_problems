@@ -86,4 +86,17 @@ class BinarySearch:
         
         return firstIdx if first else lastIdx
 
+    def countOfElement(self, array, key):
+        # since the array is sorted, the repeated key will always be together, therefore the window length
+        # of that repeated key = count of key.
+        # e.g [1, 2, 2, 2, 5], count = indexOfLastOccurence - indexOfFirstOccurence + 1 -> (3 - 1) + 1 = 3
+
+        firstIdx = self.firstOccuerence(array, key, first = True)
+        lastIdx = self.firstOccuerence(array, key, first = False)
+
+        if firstIdx == -1 and lastIdx == -1:
+            return 0
+
+        return (lastIdx - firstIdx) + 1
+
 
