@@ -31,3 +31,28 @@ def binarySearchHelper(array, target, left, right):
             left = middle + 1
 
     return -1
+
+# =======================================================================================================
+'''
+    Modularizing code for reusability for different problems based on binary search
+'''
+class BinarySearch:
+    def searchOnAscending(self, array, key):
+        start = 0
+        end = len(array) - 1
+
+        while low <= high:
+            mid = start + (end - start) // 2
+
+            if array[mid] == key:
+                return mid
+            elif key < array[mid]:
+                end = mid - 1
+            else:
+                start = mid + 1
+
+        return -1
+    
+
+
+
