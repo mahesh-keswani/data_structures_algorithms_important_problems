@@ -59,24 +59,31 @@ class BinarySearch:
 
         return -1
 
-    def firstOccuerence(self, array, key):
+    def firstOccuerence(self, array, key, first = True):
+        # if first = True, i.e first occurence else last occurence 
         start = 0
         end = len(array) - 1
         firstIdx = -1
-        
+        lastIdx = -1
         while start <= end:
             mid = start + (end - start) // 2
 
             if array[mid] == key:
-                firstIdx = mid
-                # once the key is found, we don't know whether it is first occuerence or not so move to the left side
-                # again
-                end = mid - 1
+                if first:
+                    firstIdx = mid
+                    # once the key is found, we don't know whether it is first occuerence or not so
+                    # move to the left side again
+                    end = mid - 1
+                else:
+                    lastIdx = mid
+                    # once the key is found, we don't know whether it is last occuerence or not so
+                    # move to the right side again
+                    start = mid + 1
             elif key < array[mid]:
                 end = mid - 1
             else:
                 start = mid + 1
-
-        return firstIdx
+        
+        return firstIdx if first else lastIdx
 
 
