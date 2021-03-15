@@ -134,6 +134,27 @@ class BinarySearch:
                 end = mid - 1
 
         return -1
+
+        
+    def searchInRotatedSortedArray(self, array, key):
+        minIdx = self.countSortedArrayIsRotated(array)
+
+        # Now we know the index of minimum element, now as the key must be greater than min element
+        # and as sorted array is rotated, we have to apply binary search on (start to minIdx) and (minIdx to end)
+        # if both return -1, then key is not present in array, else return index of key
+        left = self.search(array[ 0:minIdx ], key)
+        # ... + minIdx because, consider this [7, 11, 12, 5, 6], minIdx = 3, then when we will do binary search
+        # on [minIdx: len(array)], it will return 1, but in input array it's
+        # index will be 3 (minIdx) + 1(search result of bs on [minIdx:end])
+        
+        right = self.search(array[ minIdx:len(array) ], key) + minIdx
+
+        # instead of these 3 lines, we know one of them will be -1, therefore we can return max(left, right)
+        # if both are -1, then -1 will be returned else index of key will be returned
+        if left == -1 and right == -1:
+            return -1
+        
+        return left if left != -1 else right
                 
 array = [7, 11, 12, 5, 6]
 bs = BinarySearch()
