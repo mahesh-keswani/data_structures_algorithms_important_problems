@@ -184,7 +184,33 @@ class BinarySearch:
             elif key > array[mid + 2]:
                 start = mid + 2
         return -1
-                
+    
+    def findFloorAndCeil(self, array, key):
+        # floor means, the closest element which is <= key
+        # ceil means the closest element which is >= key
+        # if parameter floor = False, then we will find ceil
+        start = 0
+        end = len(array) - 1
+        floor = -1
+        ceil = -1
+        
+        while start <= end:
+            mid = start + (end - start) // 2
+            # i.e if we have key present in the array then this is only floor and ceil
+            if array[mid] == key:
+                return mid
+            # i.e for floor we want the key to be greater than array[mid] | array[mid], ..., key
+            # for ceil, we want the key to be less than array[mid], key, ..., array[mid] (then only it will be potential ceil)
+            elif key < array[mid]:
+                ceil = mid
+                end = mid - 1
+            # i.e key > array[mid], i.e array[mid] < key then it is possible candidate for floor
+            else:
+                floor = mid
+                start = mid + 1
+
+        return floor, ceil
+            
 array = [7, 11, 12, 5, 6]
 bs = BinarySearch()
 
