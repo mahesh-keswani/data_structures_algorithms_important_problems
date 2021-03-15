@@ -155,6 +155,35 @@ class BinarySearch:
             return -1
         
         return left if left != -1 else right
+
+    def searchElementInNearlySortedArray(self, array, key):
+        # nearly sorted array means, element at index i will be at index (i - 1) OR at i OR at (i + 1) in sorted array
+
+        # handling edge cases in starting only
+        if array[0] == key:
+            return 0
+
+        if array[-1] == key:
+            return len(array) - 1
+
+        start = 1
+        end = len(array) - 2
+        
+        while start <= end:
+            mid = start + (end - start) // 2
+
+            if array[mid] == key:
+                return mid
+            elif mid > 0 and array[mid - 1] == key:
+                return (mid - 1)
+            elif mid < (len(array) - 1) and array[mid + 1] == key:
+                return (mid + 1)
+            # since now we have compared key with mid-1, now comparing with mid-2
+            if key < array[mid - 2]:
+                end = mid - 2
+            elif key > array[mid + 2]:
+                start = mid + 2
+        return -1
                 
 array = [7, 11, 12, 5, 6]
 bs = BinarySearch()
