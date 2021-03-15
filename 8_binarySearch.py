@@ -100,3 +100,47 @@ class BinarySearch:
         return (lastIdx - firstIdx) + 1
 
 
+    def countSortedArrayIsRotated(self, array):
+        '''
+            when sorted array is rotated, then number of times it is rotated = indexOfMinElement.
+            And min element is the only element in sorted rotated array, which is smaller than it's
+            previous element as well as next element.
+        '''
+        lenArr = len(array)
+
+        if lenArr == 0:
+            return -1
+        if lenArr == 1:
+            return 0
+        
+        start = 0
+        end = lenArr - 1
+        
+        while start <= end:
+            mid = start + (end - start) // 2
+            # checking for the prev in circular way
+            prev = (mid - 1 + lenArr) % lenArr
+            # checking for next in circular way
+            nextToMid = (mid + 1) % lenArr
+
+            if array[mid] <= array[prev] and array[mid] <= array[nextToMid]:
+                return mid
+            # if mid > start, i.e left subarray is sorted, we need to go to right, where minimum will be present
+            # in unsorted array 
+            if array[mid] > array[start]:
+                start = mid + 1
+            # i.e right subarray is sorted we need to go to left
+            elif array[mid] <= array[end]:
+                end = mid - 1
+
+        return -1
+                
+array = [7, 11, 12, 5, 6]
+bs = BinarySearch()
+
+# if array is right rotated 
+print(len(array) - bs.countSortedArrayIsRotated(array))
+
+# if array is left rotated 
+print(bs.countSortedArrayIsRotated(array))
+
