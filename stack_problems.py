@@ -283,5 +283,37 @@ def nearestSmallerElementToRight(array):
 array = [2, 1, 4, 3, 6, 2]
 print( nearestSmallerElementToRight(array) )
 
+'''
+    Same as nearest greater element to right, just traverse from left to right and there is no need to reverse
+    the result and reverse the relational signs
+'''
 
+def nearestSmallerElementToLeft(array):
+    # ngr -> nearest greater to left
+    ngl = []
+    stack = []
+    for i in range(0, len(array)):
+        num = array[i]
+        if len(stack) == 0:
+            ngl.append(-1)
+        # if num > stack top
+        elif num > stack[-1]:
+            ngl.append( stack[-1] )
+        else:
+            # while there is stack and num <= stack top
+            while len(stack) > 0 and num <= stack[-1]:
+                stack.pop()
+
+            if len(stack) == 0:
+                ngl.append(-1)
+            else:
+                # when this is reached, we are sure that stack top is < num
+                ngl.append(stack[-1])
+
+        stack.append( num )
+
+    return ngl
+
+array = [2, 1, 4, 3, 6, 2]
+print( nearestSmallerElementToLeft(array) )
 
