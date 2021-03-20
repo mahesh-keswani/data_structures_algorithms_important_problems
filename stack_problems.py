@@ -249,3 +249,39 @@ def nearestGreaterElementToLeft(array):
 
 array = [2, 1, 4, 3, 6, 2]
 print( nearestGreaterElementToLeft(array) )
+
+'''
+    similar as nearest greater element to right, just convert all the greater than to less than and vice versa
+'''
+
+def nearestSmallerElementToRight(array):
+    # nlr -> nearest smaller to right
+    nlr = []
+    stack = []
+    for i in range(len(array) - 1, -1, -1):
+        num = array[i]
+        if len(stack) == 0:
+            nlr.append(-1)
+        # if num > stack top
+        elif num > stack[-1]:
+            nlr.append( stack[-1] )
+        else:
+            # while there is stack or num <= stack top
+            while len(stack) > 0 and num <= stack[-1]:
+                stack.pop()
+
+            if len(stack) == 0:
+                nlr.append(-1)
+            else:
+                # when this is reached, we are sure that stack top is > num
+                nlr.append(stack[-1])
+
+        stack.append( num )
+
+    return list(reversed(nlr))
+
+array = [2, 1, 4, 3, 6, 2]
+print( nearestSmallerElementToRight(array) )
+
+
+
