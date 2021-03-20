@@ -179,3 +179,39 @@ stack = Maxstack()
 stack.push(4).push(3).push(10).push(7)
 
 stack.printStack()
+
+
+'''
+    Idea is: traverse frpm right, if stack is empty return -1, else if current element < stack_top return stack top,
+    else, while the current element is greater than top, continously pop and push every element to stack after this.
+    By using this stack approach, stack will contain only potential elements, so we don't need to parse through
+    all n elements.
+'''
+def nearestGreaterElementToRight(array):
+    # ngr -> nearest greater to right
+    ngr = []
+    stack = []
+    for i in range(len(array) - 1, -1, -1):
+        num = array[i]
+        if len(stack) == 0:
+            ngr.append(-1)
+        # if num < stack top
+        elif num < stack[-1]:
+            ngr.append( stack[-1] )
+        else:
+            # while there is stack or num >= stack top
+            while len(stack) > 0 and num >= stack[-1]:
+                stack.pop()
+
+            if len(stack) == 0:
+                ngr.append(-1)
+            else:
+                # when this is reached, we are sure that stack top is > num
+                ngr.append(stack[-1])
+
+        stack.append( num )
+
+    return list(reversed(ngr))
+
+array = [2, 1, 4, 3, 6, 2]
+print( nearestGreaterElementToRight(array) )
