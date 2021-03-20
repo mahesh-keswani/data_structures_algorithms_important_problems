@@ -129,6 +129,52 @@ def kClosestPointToOrigin(coords, k):
     for distance, coord in ksmallest:
         print(distance, coord)
 
+
+'''
+    Idea is: since we have to keep the array sorted as the element comes, but since we only care about only
+    middle elements in sorted array, therefore we will create two heaps, max heap for first half of sorted array
+    and min heap for next half of sorted array, at any time if they becomes imbalanced, then we will rebalanced them.
+    if there len are same, (i.e total number of elements are even) thenwe will take the average of root of both heaps,
+    else we will take root from that heap which contains more number of elements.
+'''
+
+def continousMedian(array):
+    maxHeap = []
+    minHeap = []
+    medians = []
+    
+    for num in array:
+        # if maxHeap is empty or current element is smaller than root of maxheap
+        # as bydefault, internally min heap is created so using -ve everywhere in order to make it maxheap
+        if len(maxHeap) == 0 or num < (-1*maxHeap[0]):
+            heap.heappush( maxHeap, -num )
+        else:
+            heap.heappush( minHeap, num )
+
+
+        # now checking for imbalanced, at any time if lefthalf and right half differes by 2
+        if len(maxHeap) - len(minHeap) == 2:
+            pop = heap.heappop( maxHeap )
+            heap.heappush( minHeap, pop )
+        # if right half - lefthalf differs by 2
+        elif len(minHeap) - len( maxHeap ) == 2:
+            pop = heap.heappop( minHeap )
+            heap.heappush( maxHeap, -pop )
+
+        # Now the heaps are balanced, we just need to calculate median
+        if len(minHeap) == len(maxHeap):
+            median = ( minHeap[0] + (-maxHeap[0]) ) / 2
+        else:
+            # i.e total number of elements are odd
+            if len(minHeap) > len(maxHeap):
+                median = minHeap[0]
+            else:
+                median = -maxHeap[0]
+                
+        medians.append(median)
+        
+    return medians
+
         
 array = [8, 5, 7, 2, 3]
 print( findKthLargestElement(array, 2) )
@@ -154,3 +200,7 @@ topKFrequentElements(arr, k)
 coords = [ [1, 2], [-1, 4], [3, 4], [1, 0], [5, -2] ]
 k = 2
 kClosestPointToOrigin(coords, k)
+
+
+array = [5, 10, 100, 200, 6, 13, 14]
+print( continousMedian(array) )
