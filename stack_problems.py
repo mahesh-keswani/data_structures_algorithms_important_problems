@@ -426,21 +426,41 @@ def maxAreaHistogram(array):
 heights = [2, 1, 5, 6, 2, 3]
 print( maxAreaHistogram(heights) )
 
+'''
+    In this, we will have binary matrix, we have to find all the possible rectangles and return the rectangle
+    with max area.
+    Idea is: It is similar to max area histogram, previously it was on 1D, now it is 2d, if we consider one row
+    at a time, then it is 1d only.
+    Consider below example, for first row max area = 2, now second row will be previous row + current_row,
+    then finding max area on it, but we will add only if it is non zero.
+    consider fourth row, till third row we will have [2, 3, 3, 3], for fourth row we will add only if it is non zero
+    [3, 4, 0, 0]
+'''
+def maxAreaBinaryMatrix(matrix):
+    # finding max area for first row
+    currentRow = matrix[0]
+    maxArea = maxAreaHistogram(currentRow)
 
+    for i in range(1, len(matrix)):
+        for j in range(len(matrix[0])):
+            if matrix[i][j] == 0:
+                currentRow[j] = 0
+            else:
+                currentRow[j] = currentRow[j] + matrix[i][j]
 
+        currentArea = maxAreaHistogram(currentRow)
+        maxArea = max( currentArea, maxArea )
 
+    return maxArea
 
+matrix = [
+    [0, 1, 1, 0],
+    [1, 1, 1, 1],
+    [1, 1, 1, 1],
+    [1, 1, 0, 0]
+]
 
+print( maxAreaBinaryMatrix(matrix) )
 
-
-
-
-
-
-
-
-
-
-    
 
 
