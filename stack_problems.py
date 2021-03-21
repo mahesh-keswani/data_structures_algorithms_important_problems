@@ -317,3 +317,43 @@ def nearestSmallerElementToLeft(array):
 array = [2, 1, 4, 3, 6, 2]
 print( nearestSmallerElementToLeft(array) )
 
+'''
+    Problem is: we have to find consecutive number of days the price was less than or equal to the ith day.
+    Idea is: basically we have to find the nearest greater element to the left, but now instead of pushing
+    just the element, we need to push the index as well, inorder to find the window size.
+    Window size = i - index_of_nearest_greater_to_left
+'''
+def stockSpan(array):
+    # ngr -> nearest greater to left
+    ngl = []
+    # [index, nearest_greater_to_left]
+    stack = []
+    for i in range(len(array)):
+        num = array[i]
+        if len(stack) == 0:
+            ngl.append( -1 )
+        # num  < stack top
+        elif num < stack[-1][1]:
+            ngl.append( stack[-1][0] )
+        else:
+            while len(stack) > 0 and num >= stack[-1][1]:
+                stack.pop()
+
+            if len(stack) == 0:
+                ngl.append(-1)
+            else:
+                ngl.append( stack[-1][0] )
+
+        stack.append( [i, num] )
+
+    # now calculating window size
+    spans = []
+    for i in range(len(array)):
+        spans.append( i - ngl[i] )
+
+    return spans
+        
+array = [2, 1, 4, 3, 6, 2]
+print( stockSpan(array) )
+
+
