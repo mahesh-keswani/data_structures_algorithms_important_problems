@@ -356,4 +356,91 @@ def stockSpan(array):
 array = [2, 1, 4, 3, 6, 2]
 print( stockSpan(array) )
 
+'''
+    Idea is: find the nearest smaller to left (left), find nearest smaller to right (right), then find the width
+    by right - left, and we already have the height of the rectansle, therefore we can get the area
+'''
+
+def nearestSmallerToLeft(array):
+    nsl = []
+    # again we are going to store the index as well
+    # [index, nsl]
+    stack = []
+    for i in range(len(array)):
+        num = array[i]
+        if len(stack) == 0:
+            nsl.append(-1)
+        elif num > stack[-1][1]:
+            nsl.append( stack[-1][0] )
+        else:
+            while len(stack) and num <= stack[-1][1]:
+                stack.pop()
+
+            if len(stack) == 0:
+                nsl.append( -1 )
+            else:
+                nsl.append( stack[-1][0] )
+
+        stack.append( [i, num] )
+
+    return nsl
+
+def nearestSmallerElementToRight(array):
+    # nsr -> nearest smaller to right
+    nsr = []
+    stack = []
+    for i in range(len(array) - 1, -1, -1):
+        num = array[i]
+        if len(stack) == 0:
+            nsr.append(-1)
+        # if num > stack top
+        elif num > stack[-1][1]:
+            nsr.append( stack[-1][0] )
+        else:
+            # while there is stack or num <= stack top
+            while len(stack) > 0 and num <= stack[-1][1]:
+                stack.pop()
+
+            if len(stack) == 0:
+                ngr.append( len(array) )
+            else:
+                # when this is reached, we are sure that stack top is > num
+                nsr.append(stack[-1][0])
+
+        stack.append( [i, num] )
+
+    return list(reversed(nsr))
+
+def maxAreaHistogram(array):
+    nsl = nearestSmallerToLeft(array)
+    nsr = nearestSmallerElementToRight(array)
+    maxArea = float("-inf")
+    
+    for i, height in enumerate(array):
+        width = nsr[i] - nsl[i] - 1
+        currentArea = height * width
+        maxArea = max( maxArea, currentArea )
+
+    return maxArea
+
+heights = [2, 1, 5, 6, 2, 3]
+print( maxAreaHistogram(heights) )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
 
