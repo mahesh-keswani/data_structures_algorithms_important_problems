@@ -10,49 +10,52 @@ def maxSumWithWindowK(arr, k):
         
     return maxSoFar
 
-
-def findMaxInEveryWindow(arr, k):
-    '''
-        Create a dequeue to store element indices.
-        Iterate through the array, insert the indices of first K elements in the array
-        (indices will be stored according to decreasing order of elements) .
-        While insertion we will take care of the window such that there are no unnecessary indices (out of window elements).
-        To remove these indices, we will remove all the elements from the back of the queue that is smaller
-        than the current array element.
-        After the iteration for the first K element, the maximum element's index is at the front of the queue.
-        Now, Iterate through the remaining part of the array and remove the element from the front if they are out of the current window.
-        Again, insert the element in the dequeue and before inserting delete those unnecessary indices which are smaller than the current array element.
-    '''
-    # [2, 1, 3, 4, 3, 5]
-    # [3, ]
-    myDeque = deque()
-    for i in range(k):
-        # checking if there is atleast one element and the current element is greater than the element at the end of queue
-        # if so pop the element from rear
-        while myDeque and arr[i] >= arr[ myDeque[-1] ]:
-            myDeque.pop()
-
-        # inserting the index at the rear end
-        myDeque.append(i)
-
-    for i in range(k, len(arr)):
-        # As the front of queue contains max element of first window print it
-        print(arr[ myDeque[0] ], end = " ")
+'''
+    Easier as compared to the previous approach.
+'''
+def maxInK(array, k):
+    # assuming the first element as maximum element
+    maxEle = array[0]
+    queue = [0]
+    # traversing through first k elements
+    for i in range(1, k):
         
-        # cheking if there are any elements in deque and if there are any elements which are out of
-        # current window, if yes Remove the elements from left
-        while myDeque and myDeque[0] <= i - k:
-            myDeque.popleft()
+        # if we have found the element which is greater than maxEle than all the previous elements are basically useless so pop them out
+        # e.g consider [1, 3, 2, 4] and k = 3, here maxEle initially = 1, then from 1..k, 3 will be maxEle i.e that previous element will
+        # never going to be a part of maximum for the current window so remove it. 
+        if array[i] > maxEle:
+            maxEle = array[i]
+    
+            while queue and queue[0] < i:
+                queue.pop(0)
+        
+        # if the element is not the maxEle, but it can be potential candidate when the window slides, so append it in the queue.
+        queue.append(i)
+    
+    # here i will be the ending of sliding window and (i - k) will be starting of the window
+    for i in range(k, len(array)):
+        
+        # if we have max ele in the window, then print it.
+        if queue:
+            print( array[queue[0]], end = ' ' )
+        
+        # removing all the elements which are invalid, i.e having index <= starting index of current window
+        while queue and queue[0] <= (i - k):
+            queue.pop(0)
+        
+        # again same logic, if currentEle > maxEle, remove all the elements which are not going to be required.
+        if array[i] > maxEle:
+            maxEle = array[i]
 
-        # Remove all elements smaller than
-        # the currently being added element 
-        # (Remove useless elements)
-        while myDeque and arr[i] >= arr[ myDeque[-1] ] :
-            myDeque.pop()
+            while queue and queue[0] < i:
+                queue.pop(0)
 
-        # Add current element at the rear of Qi
-        myDeque.append(i)
-
+        queue.append(i)
+        
+    # for the last window the value will not going to be printed, so printing the maximum element for the last window
+    if queue:
+        print( array[queue[0]], end = ' ' )
+        
 def findLargestSubarrayWithSumK(arr, k):
     i = 0
     j = 1
