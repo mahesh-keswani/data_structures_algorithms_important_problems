@@ -248,3 +248,46 @@ def searchInInfiniteSortedArray(arr, x):
             start = mid + 1
 
     return -1
+
+
+'''
+    The array is unsorted, and we have to find the peek element. Peek element is basically element
+    at index at index i which is greater than element at i-1 and also i+1. There can be multiple
+    peek elements and you can return any of the peek element.
+    Also for the elements at index 0 and index n-1, for index 0, it is also peek element if it is
+    greater than element at index 1 (even though it does not have its i-1 element).
+    Similarly for the element at n-1, if it is greater than n-2, then it is also peek element
+    (even though it does not have right element)
+'''
+
+def peekElement(arr):
+    start = 0
+    end = len(arr) - 1
+    n = len(arr)
+    
+    while start <= end:
+        mid = start + (end - start) // 2
+
+        if mid > 0 and mid < n-1:
+            if (arr[mid] > arr[mid - 1]) and (arr[mid] > arr[mid + 1]):
+                return mid
+
+            if arr[mid - 1] > arr[mid]:
+                end = mid - 1
+            elif arr[mid + 1] > arr[mid]:
+                start = mid + 1
+        elif mid == 0:
+            if arr[0] > a[1]:
+                return 0
+            else:
+                return 1
+        elif mid == n-1:
+            if arr[n-1] > arr[n-2]:
+                return n-1
+            else:
+                return n-2
+            
+    return -1
+            
+arr = [5, 10, 20, 15]
+print( peekElement(arr) )
