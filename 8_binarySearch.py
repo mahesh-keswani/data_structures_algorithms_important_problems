@@ -220,3 +220,31 @@ print(len(array) - bs.countSortedArrayIsRotated(array))
 # if array is left rotated 
 print(bs.countSortedArrayIsRotated(array))
 
+'''
+    Since in this case, the array is infinite, we don't know the end of the array, so we start with start=0 and assume that end=1.
+'''
+def searchInInfiniteSortedArray(arr, x):
+    start = 0
+    end = 1
+    
+    # while the end element is less than the x, update the start=end and double the end.
+    # e.g say arr=[1,2,3,4,....] say element to be searched is 5. initially start=0, end=1
+    # since arr[end]<x, then we know the x will never be present before end index, i.e x=5 will never be present before index 1 as array is sorted.
+    # therefore update the start=end first and then double the range for end.
+    
+    while arr[end] < x:
+        start = end
+        end = end * 2
+    
+    # after the above loop, the x will be bounded by the start and end, such that arr[start] < x < arr[end]
+    while start <= end:
+        mid = start + (end - start) // 2
+
+        if arr[mid] == x:
+            return mid
+        elif x < arr[mid]:
+            end = mid - 1
+        else:
+            start = mid + 1
+
+    return -1
