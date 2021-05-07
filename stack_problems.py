@@ -462,5 +462,32 @@ matrix = [
 
 print( maxAreaBinaryMatrix(matrix) )
 
+# For detailed explaination:
+# https://www.youtube.com/watch?v=FbGG2qpNp4U&list=PL_z_8CaSLPWdeOezg68SKkeLN4-T_jNHd&index=9
+def rainWaterTrapping(arr):
+    n = len(arr)
+
+    # initializing with zero
+    # mxl -> max element to the left, mxr -> max element to the right
+    mxl = [0] * n
+    mxr = [0] * n
+
+    mxl[0] = arr[0]
+    mxr[-1] = arr[-1]
+
+    for i in range(1, n):
+        mxl[i] = max(mxl[i-1], arr[i])
+
+    for i in range(n-2, -1,-1):
+        mxr[i] = max(mxr[i + 1], arr[i])
+
+    area = 0
+    for i, currHeight in enumerate(arr):
+        width = 1
+        height = min( mxr[i], mxl[i] ) - currHeight
+        area += (width * height)
+
+    return area
+
 
 
