@@ -291,3 +291,81 @@ def peekElement(arr):
             
 arr = [5, 10, 20, 15]
 print( peekElement(arr) )
+
+'''
+    arr: each index i is one book and arr[i] represents number of pages in book.
+    k: number of students
+
+    we have to allocate books to student but with few restrictions:
+    1) one student have to read the entire book, it is not allowed that one student reads
+    half book and other student reads remaining half.
+    2)Each student should have atleast one book.
+    3) Books should be alloted in the contionous manner, e.g we have arr = [10, 20, 30, 40]
+    and k=2, then student1 can get (10) and student2 can get (20, 30, 40) OR student1 (10, 20)
+    and student2 (30, 40) OR student1 (10, 20, 30) and student2 (40).
+    3) we have to minimize the maximum number of pages one student should read, e.g in the first
+    case max number of pages one student can read is 90, in case2 it is 70 and in case3 it is 60.
+    So we have to return 60.
+'''
+
+def isMidValid(arr, mid, k):
+    pagesRead = 0
+    students = 1 # this will keep count of number of students, initially we have one student only
+
+    for pages in arr:
+        pagesRead += pages
+
+        # if at any time number of pages read > mid (max capacity for every student)
+        if pagesRead > mid:
+            # then we have introduce new student and set it's number of pages read=pages of current
+            # book
+            students += 1
+            pagesRead = pages
+
+        # if at any time number of students (having the capacity=mid) > then the given k
+        # therefore this capacity is invalid, inorder to have only k students, we have to
+        # increase the capacity, therefore start=mid+1 is there
+        if students > k:
+            return False
+
+    # if we have not reached return False, then it means number of students=k, and therefore
+    # the mid (capacity of student) is valid, therefore return True
+    return True
+        
+def bookAllocation(arr, k):
+
+    # if number of students given is greater than number of books, then we cannot allocate each student
+    # one book, therefore return -1
+    if k > len(arr):
+        return -1
+    
+    # here range between start and end represents number of pages that student can read.
+
+    # since each student should have atleast one book, therefore we start the range with book having
+    # max number of pages
+    start = max(arr)
+
+    # maximum number of pages that one student can read is sum of all the pages given in array.
+    end = sum(arr)
+
+    result = float("inf")
+    while start <= end:
+        # this mid represents max number of student and we have to check if this mid is valid.
+        mid = start + (end - start) // 2
+
+        if isMidValid(arr, mid, k):
+            result = min( result, mid )
+            print(result)
+            # now we know the current mid is valid, but we have to find minimum value for mid
+            # in the range, so bring end=mid-1
+            end = mid - 1
+        else:
+            # if the mid is invalid then
+            start = mid + 1
+            
+    return result
+
+
+
+
+
