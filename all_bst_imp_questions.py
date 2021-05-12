@@ -280,7 +280,47 @@ class BST:
 
                 if currentNode.left:
                     stack1.append(currentNode.left)
+    
+    def converttoGraph(self):
+        queue = deque()
+        queue.append(self)
 
+        while queue:
+            node = queue.popleft()
+
+            if 'children' not in node.__dict__:
+                node.children = []
+
+            if node.left:
+                node.children.append(node.left)
+                node.left.children = [node]
+                queue.append(node.left)
+
+            if node.right:
+                node.children.append(node.right)
+                node.right.children = [ node ]
+                queue.append(node.right)
+    
+    # ides is first convert the binary tree into the graph and then perform bfs on the graph and return all the nodes which are at distance k from target
+    def allNodesAtDistanceKFromTarget(self, target, k):
+        queue = deque()
+        queue.append( (target, 0) )
+
+        visited = set()
+        ans = []
+        while queue:
+            curr, dis = queue.popleft()
+
+            if dis == k and curr not in visited:
+                ans.append(curr.value)
+            elif curr not in visited:
+                for child in curr.children:
+                    queue.append( (child, dis + 1) )
+
+                visited.add(curr)
+
+        return ans
+        
 
     '''
         idea is: path with max sum can be either left branch or right branch or left branch + right node + root
