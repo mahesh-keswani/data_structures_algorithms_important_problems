@@ -130,3 +130,30 @@ print(singlyLL.detectStartOfLoop().value)
 
 singlyLL.removeLoop()
 singlyLL.printList()
+
+# problem is, we have two linkedlist which are sorted respectively, and we have to merge them so that the resultant list is also sorted.
+# we are  allowed to mutate list
+def mergeTwoLists(head1, head2):
+	p1 = head1
+	p2 = head2
+	p1Prev = None
+# 	1   8 -> 13
+# 	4 -> 5 -> 9
+	while p1 is not None and p2 is not None:
+		if p1.value < p2.value:
+			p1Prev = p1
+			p1 = p1.next
+		else:
+			if p1Prev is not None:
+				p1Prev.next = p2
+				
+			p1Prev = p2
+			p2 = p2.next
+			p1Prev.next = p1
+	
+	# if the list1 is done, then just merge last node of list with the remaining of list2
+	if p1 is None:
+		p1Prev.next = p2
+	
+	# return the head with the smallest value
+	return head1 if head1.value < head2.value else head2
