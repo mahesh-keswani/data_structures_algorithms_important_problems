@@ -94,7 +94,22 @@ class SinglyLL:
             p = p.next
 
         p.next = None
-    
+	
+	def revereseList(self):
+		if self is None:
+			return 
+		
+		p1 = None
+		p2 = self
+      	
+		while p2 is not None:
+			p3 = p2.next
+			p2.next = p1
+			p1 = p2
+			p2 = p3
+	
+	# at the end, p1 will be node with the new head of reversed linked list
+    return p1
 '''
     1-2-3-4-5-6
             |  |
