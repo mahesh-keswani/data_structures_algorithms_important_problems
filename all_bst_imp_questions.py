@@ -395,6 +395,29 @@ def sortedArrayToBalancedBST(arr):
 
         return root
 
+def serialize(root, array):
+	# for identification of leaf node, using -1 as a reference
+    if root is None:
+        array.append(-1)
+        return
+
+    array.append(root.value)
+    serialize(root.left, array)
+    serialize(root.right, array)
+
+index = 0
+def deserialize(array):
+    if index == len(array) or array[index] == -1:
+        index += 1
+        return None
+
+    root = BST(array[index])
+    index += 1
+    root.left = deserializeHelper(array)
+    root.right = deserializeHelper(array)
+
+    return root
+
 '''
     10
    /  \
