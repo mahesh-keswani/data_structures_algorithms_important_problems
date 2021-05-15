@@ -320,8 +320,25 @@ class BST:
                 visited.add(curr)
 
         return ans
-        
+	
+	def getInorderArray(self, array):
+        if self:
 
+            if self.left:
+                self.left.kthSmallestInBST(array)
+
+            array.append(self.value)
+
+            if self.right:
+                self.right.kthSmallestInBST(array)
+
+    # First performing the inorder traversal such that the elements will be sorted in the array
+    # then simply returing kth smallest element
+    def kthSmallestElement(self, k):
+        array = []
+        self.getInorderArray(array)
+        return array[k]
+        
     '''
         idea is: path with max sum can be either left branch or right branch or left branch + right node + root
         e.g in below tree, 10                    10               10 
