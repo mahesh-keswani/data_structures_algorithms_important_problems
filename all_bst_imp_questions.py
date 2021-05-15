@@ -430,10 +430,56 @@ def deserialize(array):
 
     root = BST(array[index])
     index += 1
-    root.left = deserializeHelper(array)
-    root.right = deserializeHelper(array)
+    root.left = deserialize(array)
+    root.right = deserialize(array)
 
     return root
+
+class Node:
+
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+    def preorder(self):
+        if self:
+            print(self.val, end = " ")
+
+            if self.left:
+                self.left.preorder()
+
+            if self.right:
+                self.right.preorder()
+        
+def findAllTrees(start, end, inorder):
+    trees = []
+
+    if start > end:
+        trees.append(None)
+        return trees
+
+    for i in range(start, end + 1):
+
+        leftTrees = findAllTrees(start, i - 1, inorder)
+        rightTrees = findAllTrees(i + 1, end, inorder)
+
+        for leftTree in leftTrees:
+            for rightTree in rightTrees:
+
+                root = Node(inorder[i])
+                root.left = leftTree
+                root.right = rightTree
+                trees.append(root)
+
+    return trees
+                
+inorder = [4, 6, 7]
+
+trees = findAllTrees(0, len(inorder) - 1, inorder)
+for tree in trees:
+    tree.preorder()
+    print()
 
 '''
     10
