@@ -490,4 +490,65 @@ def rainWaterTrapping(arr):
     return area
 
 
+'''
+    This array contains all the elements which are to be pushed into the stack.
+    Idea is, whenever new element occurs which is less than min element, we will not push that new element, but instead
+    push corrupted_value = (2*curr_element - min) and this corrupted_value will always be less than curr_element.
+    And we will set the min_element to the curr_element.
+    whenever we pop and if the element to be popped is smaller than min (i.e it is corrupted value), then we will
+    get previous min value of stack from corrupted_value by using (2*min - corrupted_value) and the min element will be
+    popped.
+    e.g say min_element = 3, the element to be pushed=2, then corrupted_value=(2*2 - 3) = 1.
+    Therefore corrupted_value is 1, and we will push this into stack and not curr_element and set min_element=2.
+    during pop, we can get the previous min as (2*2 - 1) -> 3, and the element to be popped is min element.
+'''
+
+class MinStackWithConstantSpace:
+
+    def __init__(self):
+        self.stack = []
+        self.minElement = float("inf")
+
+    def push(self, value):
+        if len(self.stack) == 0:
+            self.stack.append(value)
+            self.minElement = value
+        else:
+            # if currentElement is smaller than minValue
+            if value < self.minElement:
+                corruptedValue = (2 * value - self.minElement)
+                self.stack.append(corruptedValue)
+                self.minElement = value
+            else:
+                # else the currentElement >= minValue, then simply append it into the stack
+                self.stack.append(value)
+
+        return self
+
+    def pop(self):
+        if len(self.stack) == 0:
+            return -1
+
+        stackTop = self.peek()
+        # i.e stackTop is corruptedValue
+        if stackTop < self.minElement:
+            previousMinElement = (2 * self.minElement - stackTop)
+            elementToReturn = self.minElement
+            self.minElement = previousMinElement
+
+        else:
+            elementToReturn = stackTop
+
+        self.stack.pop()
+
+        return elementToReturn
+
+    def peek(self):
+        return self.stack[-1]
+
+    def getMin(self):
+        if len(self.stack) == 0:
+            return -1
+
+        return self.minElement
 
