@@ -369,6 +369,7 @@ def maxPathSum(node):
 
     return maxBranchIncludingRoot, maxSum
 
+
 def height(node):
     if node is None:
         return 0
@@ -473,9 +474,10 @@ def findAllTrees(start, end, inorder):
                 trees.append(root)
 
     return trees
-                
-inorder = [4, 6, 7]
 
+
+
+inorder = [4, 6, 7]
 trees = findAllTrees(0, len(inorder) - 1, inorder)
 for tree in trees:
     tree.preorder()
@@ -538,3 +540,44 @@ print("Sorted array to BST")
 arr = [1, 2, 3, 4, 5]
 root = sortedArrayToBalancedBST(arr)
 root.recursiveInorder()
+
+
+'''
+    We are given two arrays, from which if we construct BST then we have to check if the two bst's which will get formed
+    are equal. But we are not allowed to actually construct BST and check if both of them are equal by using some
+    traversal. So what we can do is check if both of them have different roots then both bsts are not equal.
+    Also if lenghts of both arrays are different then also both are different bsts.
+    If they have same root and also same lenght array, then check if the leftSubtree of the array's are equal.
+    And similarly check if both of their right subtrees are equal.
+'''
+
+def sameBsts(array1, array2):
+    if len(array1) != len(array2):
+        return False
+
+    # if the subtree's have 0 elements then both of them are equal 
+    if len(array1) == 0 and len(array2) == 0:
+        return True
+
+    # both have different roots
+    if array1[0] != array2[0]:
+        return False
+
+    # getting all the elements smaller than the root for the first array and all the elements >= root
+    leftOne, rightOne = getSmallerAndBiggerOrEqual(array1)
+
+    leftTwo, rightTwo = getSmallerAndBiggerOrEqual(array2)
+
+    return sameBsts(leftOne, leftTwo) and sameBsts(rightOne, rightTwo)
+
+
+def getSmallerAndBiggerOrEqual(array):
+    smaller = []
+    biggerOrEqual = []
+    for i in range(1, len(array)):
+        if array[i] < array[0]:
+            smaller.append(array[i])
+        elif array[i] >= array[0]:
+            biggerOrEqual.append(array[i])
+
+    return smaller, biggerOrEqual
