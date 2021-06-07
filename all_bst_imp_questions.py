@@ -581,3 +581,36 @@ def getSmallerAndBiggerOrEqual(array):
             biggerOrEqual.append(array[i])
 
     return smaller, biggerOrEqual
+
+'''
+    Idea is, we will take every node as root, and check the number of nodes on the left and right side, then find
+    total number of bst's possible for left subtree and right subtree.
+
+    e.g say n=3, i.e we have 3 elements in bst, say{5, 6, 7}
+    When 5 will be root, number of nodes on left=0 (index of 5), therefore number of bst's possible=1 (NULL TREE),
+    on right we have 2 nodes, therefore number of bst's=2. Multiply both left*right
+            +
+    Now when 6 is root, no. of nodes on left=1 (index of 6), therefore no. of bst's possible=1
+    on right no. of nodes=1, again bst's=1. Multiply left*right.
+            +
+    And same with root as 7
+'''
+def numberOfBSTPossibleWithNNodes(n):
+    # initializing all the values as 0, index (i) will be no. of nodes in tree and it's value will be
+    # number of possble bst's possible with i elements in tree.
+    nBsts = [0 for i in range(n + 1)]
+
+    # setting base conditions  
+    nBsts[0] = 1
+    nBsts[1] = 1
+    nBsts[2] = 2
+
+    # going from 3...n
+    for i in range(3, n + 1):
+        for j in range(0, i):
+            # j represents the number of nodes of left, and i-j-1 represents number of nodes on right
+            nBsts[i] = nBsts[i] + ( nBsts[j] * nBsts[i - j - 1] )
+
+    return nBsts[-1]
+    
+
