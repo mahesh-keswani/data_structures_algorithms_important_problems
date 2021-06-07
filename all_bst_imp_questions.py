@@ -648,3 +648,37 @@ def convertBstToDoublyLL(root):
 
     return head
 
+'''
+    In this, we will convert this bst to doublyLL using inorder traversal. 
+'''
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+        self.prev = None
+        
+def convertBstToDoublyLL(root):
+    stack = []
+    currentNode = root
+    prevNode, head = None, None
+
+    while currentNode or stack:
+        if currentNode:
+            stack.append( currentNode )
+            currentNode = curentNode.left
+        else:
+            treeNode = stack.pop()
+            node = Node( treeNode.value )
+
+            if head is None:
+                head = node
+            else:
+                node.prev = prevNode
+                prevNode.next = node
+
+            prevNode = node
+
+            currentNode = treeNode.right
+
+    return head
