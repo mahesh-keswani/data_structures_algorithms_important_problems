@@ -710,3 +710,21 @@ def allRootToLeafPaths(root, stack):
 
         # once the element is processed, remove it from the stack.
         stack.pop()
+
+def checkIfTwoTreesAreSymmetric(root1, root2):
+    # if both the roots are null, then they are symmetric (hypothetically)
+    if root1 is None and root2 is None:
+        return True
+
+    # if one of the root is none and other is not, then it is not symmetric
+    if root1 is None or root2 is None:
+        return False
+
+    # if the root1 data != root2 data, then there is no need to check further. 
+    if root1.data != root2.data:
+        return False
+
+    # For the two trees to be symmetric, left subtree of root1 should be same as right subtree of root2
+    # and right subtree of root1 should be same as left subtree of root2
+    return checkIfTwoTreesAreSymmetric(root1.left, root2.right) and checkIfTwoTreesAreSymmetric(root1.right, root2.left)
+
