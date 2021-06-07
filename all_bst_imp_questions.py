@@ -614,3 +614,37 @@ def numberOfBSTPossibleWithNNodes(n):
     return nBsts[-1]
     
 
+'''
+    In this, we will convert this bst to doublyLL using bfs traversal. 
+'''
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+        self.prev = None
+        
+def convertBstToDoublyLL(root):
+    queue = [ root ]
+    prevNode, head = None, None
+    
+    while queue:
+        treeNode = queue.pop(0)
+        node = Node( treeNode.value )
+        
+        if head is None:
+            head = node
+        else:
+            node.prev = prevNode
+            prevNode.next = node
+
+        prevNode = node
+
+        if node.left:
+            queue.append( node.left )
+
+        if node.right:
+            queue.append( node.right )
+
+    return head
+
