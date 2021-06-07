@@ -91,3 +91,53 @@ def minCutsPartitioningToMakePalindrome(string):
     return cuts[-1]
 
 
+'''
+    Idea is, we will again create the 2d boolean matrix for all substrings whether they are palindrome or not.
+    But this time we will not call isPalindrome for every substring, instead, check if first and last character
+    are equal, if yes, then check if middle substring is palindrome, which is already solved.
+'''
+
+def minCutsPartitioningToMakePalindrome(string):
+    palindromes = [ [False for i in string] for j in string]
+    n = len(string)
+
+    # setting palidrome=True for every single character in string 
+    for i in range(n):
+        palindromes[i][i] = True
+
+    # Now we are done with palindromes of length 1, now lets check for length 2...n (n inclusive)
+    # because it is possible that the entire string is palindrome.
+    
+    for length in range(2, n + 1):
+        for startIdx in range(0, n - length + 1):
+            # say n=10 and length=2, then we will find all the substrings of length 2 if we iterate from 0 till (10-2)
+            # i.e (n-length)
+            
+            endIdx = startIdx + length - 1
+
+            # if length==2, then we just have to check if startChar == endChar, elif length > 2, then
+            # check startChar == endChar and middle substring is palindrome
+
+            if length == 2:
+                palindromes[startIdx][endIdx] = string[startIdx] == string[endIdx]
+            else:
+                result = (string[startIdx] == string[endIdx]) and palindromes[startIdx + 1][endIdx - 1]
+
+    # placeholder for min cuts at every position
+    cuts = [float("inf") for i in string]
+    cuts[0] = 0
+    for i in range(1, n):
+
+        # checking if the string is palindrome
+        if palindromes[0][i]:
+            cuts[i] = 0
+        else:
+            # if not palindrome, then temporarily set, min number of cuts at previous position + 1
+            cuts[i] = cuts[i - 1] + 1
+
+        # now iterate from 1..i and check if any palindrome exits in between, if yes then update cuts
+        for j in range(1, i):
+            if palindromes[j][i] and (cuts[j] + 1 < cuts[i]):
+                cuts[i] = cuts[j] + 1
+
+    return cuts[-1]
