@@ -682,3 +682,31 @@ def convertBstToDoublyLL(root):
             currentNode = treeNode.right
 
     return head
+
+'''
+    Idea is, we will perform dfs and add the element to the stack and will check if the node is leaf, then print
+    all the ancestors from stack.
+'''
+
+# This stack is empty list
+def allRootToLeafPaths(root, stack):
+    
+    if root:
+        # before going to left, append node to stack
+        stack.append( root )
+
+        # basically performing recursive inorder 
+        allRootToLeafPaths(root.left, stack)
+
+        # if leaf is reached, then print it's path
+        if root.left is None and root.right is None:
+            for node in stack:
+                print(node.value, end = ' ')
+                
+            # For going to the new line
+            print()
+        
+        allRootToLeafPaths( root.right, stack )
+
+        # once the element is processed, remove it from the stack.
+        stack.pop()
