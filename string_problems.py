@@ -50,3 +50,44 @@ def getLongestPalindrome(string, left, right):
 
     return [ left + 1, right ]
     
+'''
+    Idea is, we will create a boolean 2d matrix for all the possible substrings whether they are palindrome
+    or not. This 2d matrix will help in calculating min cuts at every position. 
+'''
+def isPalindrome(string, i, j):
+    while i <= j:
+        if string[i] != string[j]:
+            return False
+
+        i += 1
+        j -= 1
+
+    return True
+
+def minCutsPartitioningToMakePalindrome(string):
+    palindromes = [ [False for i in string] for j in string]
+    n = len(string)
+    for i in range(n):
+        for j in range(i, n):
+            palindromes[i][j] = isPalindrome(string, i, j)
+
+    # placeholder for min cuts at every position
+    cuts = [float("inf") for i in string]
+    cuts[0] = 0
+    for i in range(1, n):
+
+        # checking if the string is palindrome
+        if palindromes[0][i]:
+            cuts[i] = 0
+        else:
+            # if not palindrome, then temporarily set, min number of cuts at previous position + 1
+            cuts[i] = cuts[i - 1] + 1
+
+        # now iterate from 1..i and check if any palindrome exits in between, if yes then update cuts
+        for j in range(1, i):
+            if palindromes[j][i] and (cuts[j] + 1 < cuts[i]):
+                cuts[i] = cuts[j] + 1
+
+    return cuts[-1]
+
+
