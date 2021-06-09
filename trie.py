@@ -39,3 +39,14 @@ class Trie:
             root = root.children[letter]
 
         return True
+    
+    def countStringWithGivenPrefix(self, prefix):
+        root = self.root
+        for letter in prefix:
+            if letter not in root.children:
+                # i.e the given prefix is not present in the trie
+                return -1
+
+            root = root.children[letter]
+
+        return len(root.children)
