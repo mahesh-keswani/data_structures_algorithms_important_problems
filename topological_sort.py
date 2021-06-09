@@ -83,3 +83,62 @@ vertices = [1, 2, 3, 4]
 edges = [ [1, 2], [3, 2], [4, 2], [1, 3], [4, 3] ]
 
 print( topologicalSort(vertices, edges) )      
+
+
+# ======================================================================================================================================================
+def topologicalSort(vertices, edges):
+    graph = Graph(vertices, edges)
+    return getOrderedJobs(graph)
+
+def getOrderedJobs(graph):
+    nodes = graph.nodes
+    orderedJobs = []
+
+    queue = [ nodes[0] ]
+    while len(queue):
+        node = queue.pop(0)
+
+        if node.visited:
+            continue
+
+        if node.visiting:
+            return []
+
+        node.visiting = True
+        for prereq in node.prereqs:
+            if not prereq.visited:
+                queue.append( prereq )
+
+        node.visiting = False
+        node.visited = True
+
+        orderedJobs.append(node.value)
+    
+    return orderedJobs
+
+class Graph:
+
+    def __init__(self, vertices, edges):
+        self.nodes = []
+        self.graph = {}
+
+        for vertex in vertices:
+            node = Node(vertex)
+            self.nodes.append( node )
+            self.graph[vertex] = node
+
+        self.addEdges(edges)
+
+    def addEdges(self, edges):
+        for prereq, node in edges:
+            prereqNode = self.graph[prereq]
+            self.graph[node].prereqs.append( prereqNode )
+    
+
+class Node:
+
+    def __init__(self, value):
+        self.visiting = False
+        self.visited = False
+        self.value = value
+        self.prereqs = []
