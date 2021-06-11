@@ -50,3 +50,20 @@ class ThreadedBinaryTree:
             parent.isThread = False
   
         return self
+    
+    def search(self, value):
+        current = self
+        while current:
+            if current.value == value:
+                return True
+
+            if value < current.value:
+                current = current.left
+            else:
+                # i.e we have reached the leaf node
+                if current.isThread:
+                    break
+                else:
+                    current = current.right
+
+        return False
