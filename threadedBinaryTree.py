@@ -67,3 +67,30 @@ class ThreadedBinaryTree:
                     current = current.right
 
         return False
+    
+    def inorder(self):
+        if self is None:
+            return
+
+        # get the leftMost node of root
+        current = self.leftMost()
+
+        while current is not None:
+            print( current.value )
+
+            if current.isThread:
+                # if it is thread, then go to it's inorder successor
+                current = current.right
+            else:
+                # if it is not thread, then go to right and then find it's leftMost
+                current = current.right.leftMost()
+
+    def leftMost(self):
+        if self is None:
+            return None
+
+        node = self
+        while node.left is not None:
+            node = node.left
+
+        return node
