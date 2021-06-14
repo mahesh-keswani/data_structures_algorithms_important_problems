@@ -157,3 +157,52 @@ def mergeTwoLists(head1, head2):
 	
 	# return the head with the smallest value
 	return head1 if head1.value < head2.value else head2
+
+
+'''
+    Two numbers are represented using two linked list, where each node contains single digit.
+    We have to find sum of these two numbers and return the sum list (each digit in one node)
+'''
+
+class Node:
+    def __init__(self, digit):
+        self.digit = digit
+        self.next = None
+
+def sumOfTwoLL(head1, head2):
+    firstNumber = createNumber(head1)
+    secondNumber = createNumber(head2)
+
+    finalSum = firstNumber + secondNumber
+
+    # creating linked list of digits in finalSum
+    # 528
+    # 5-> 2-> 8
+    prev = None
+    finalHead = None
+    for digit in str(finalSum):
+        newNode = Node( int(digit) )
+
+        if prev is None:
+            prev = newNode
+            finalHead = newNode
+        else:
+            prev.next = newNode
+            prev = newNode
+
+    return finalHead
+
+def createNumber(head):
+    node = head
+    val = 0
+    
+    # e.g 5 -> 6 -> 3
+    # First iteration: val = 0 + 5 = 5
+    # second iteration: val = 50 + 6 = 56
+    # third iteration: val = 560 + 3 = 563
+    
+    while node:
+        val = (val * 10) + node.digit
+        node = node.next
+
+    return val
