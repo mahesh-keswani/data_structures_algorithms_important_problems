@@ -757,3 +757,25 @@ def populateNextRightPointers(root):
             if node.right:
                 queue.append(node.right)
     return root
+
+
+'''
+every branch collectively form one number, we have to return sum of all numbers.
+
+       5
+      /  \ 
+    4     7
+   / \     \ 
+   1 2     8
+      \
+       3
+
+ans = 541 + 5423 + 578
+
+'''
+def rootToLeafSum(root, val = 0):
+    if root is None:
+        return 0
+
+    val = ( val * 10 ) + root.value
+    return rootToLeafSum(root.left, val) + rootToLeafSum(root.right, val)
