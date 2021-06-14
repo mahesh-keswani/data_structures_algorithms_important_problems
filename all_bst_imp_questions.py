@@ -728,3 +728,32 @@ def checkIfTwoTreesAreSymmetric(root1, root2):
     # and right subtree of root1 should be same as left subtree of root2
     return checkIfTwoTreesAreSymmetric(root1.left, root2.right) and checkIfTwoTreesAreSymmetric(root1.right, root2.left)
 
+# nextRight property is to point to the nearest node in the same level, if node exists.
+class BinaryTree:
+
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+        self.nextRight = None
+
+def populateNextRightPointers(root):
+    # here we will do level order traversal to populate nextRight pointers
+    queue = [ root ]
+    while queue:
+        currentSize = len(queue)
+
+        for i in range(currentSize):
+            node = queue.pop(0)
+
+            # if we have more than 1 element in the queue
+            # (i.e there are few more nodes in the same level), then set their nextRight pointers
+            if i < (currentSize - 1):
+                node.nextRight = queue[0] or None
+
+            if node.left:
+                queue.append(node.left)
+
+            if node.right:
+                queue.append(node.right)
+    return root
