@@ -206,3 +206,45 @@ def createNumber(head):
         node = node.next
 
     return val
+
+
+'''
+    Reverse a linked list in group of k.
+
+    Idea is, first reverse the first k nodes of list, then recursively reverse the next k nodes
+    and also keep track of pointer of next node.
+    
+'''
+
+class Node:
+
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+def reverseLinkedList(head, k):
+    if head is None:
+        return None
+
+    p1 = None
+    p2 = head
+
+    # reverse the linked list upto k nodes
+    count = 0
+    while p2 is not None and (count < k):
+        p3 = p2
+        p2.next = p1
+        p1 = p2
+        p2 = p3
+
+        count += 1
+
+    # i.e further linked list exist
+    if p3 is not None:
+
+        # now the head will be last node in group of k, so update it's next recursively.
+        # now reverse the list using p3 as head 
+        head.next = reverseLinkedList(p3, k)
+
+    # at the end p1 will be head of the list
+    return p1
