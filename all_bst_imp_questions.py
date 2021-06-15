@@ -453,24 +453,38 @@ class Node:
             if self.right:
                 self.right.preorder()
         
-def findAllTrees(start, end, inorder):
+'''
+    Given the inorder traversal find all possible binary trees.
+    Idea is, consider every ith element as the root node and for every ith element recursively
+    find left subtrees (from 0 to i-1) and right subtrees (from i+1 to n)and then make
+    all possible combinations of leftSubtree, root and rightSubtree.
+'''
+        
+def findAllTrees(inorder, start, end):
+    # this will store all possible binary trees of given inorder traversal
     trees = []
 
-    if start > end:
+    # i.e the subtree is empty
+    if start >= end:
         trees.append(None)
-        return trees
+        return None
 
-    for i in range(start, end + 1):
+    # if the subtree is not empty (i.e start <= end)
+    for i in range(start, end):
 
-        leftTrees = findAllTrees(start, i - 1, inorder)
-        rightTrees = findAllTrees(i + 1, end, inorder)
+        # find all left Subtrees
+        leftTrees = findAllTrees(inorder, 0, i-1)
+
+        # find all right subtrees
+        rightTrees = findAllTrees(inorder, i+1, end)
 
         for leftTree in leftTrees:
             for rightTree in rightTrees:
 
-                root = Node(inorder[i])
-                root.left = leftTree
+                root = Node( inorder[i] )
+                root.left = letfTree
                 root.right = rightTree
+
                 trees.append(root)
 
     return trees
