@@ -248,3 +248,78 @@ def reverseLinkedList(head, k):
 
     # at the end p1 will be head of the list
     return p1
+
+
+'''
+    Rearrange the given linked list into the following manner:
+    given: n1 -> n2 -> n3 -> ... -> nn
+    expected: n1 -> nn -> n2 -> nn-1 -> n3 -> nn-3...
+
+    Idea is: get the middle node of list, divide the list into first and second half, reverse
+    the second half, the keep addding one node from first and from second alternatively.
+'''
+class Node:
+
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+def getMiddle(head):
+    p = head
+    q = head.next
+
+    # while the q exists and q.next exists
+    while q and q.next:
+        p = p.next
+        q = q.next.next
+
+    return p
+
+def reverse(head):
+    p1 = None
+    p2 = head
+
+    while p2 is not None:
+        p3 = p2
+        p2.next = p1
+        p1 = p2
+        p2 = p3
+
+    return p1
+
+def rearrange(head):
+    # i.e if list is empty OR list contains only one node OR list contains only two nodes
+    # then you cannot rearrange in the required way, so simply return head
+    
+    if head is None or head.next is None or head.next.next is None:
+        return head
+
+    p = getMiddle(head)
+
+    # secondList if the head of second list
+    secondList = p.next
+    firstList = head
+
+    # set middle.next to None, so the two lists are seperate
+    p.next = None
+
+    secondListReversed = reverse(secondList)
+
+    # create a temporary node for creating the new list
+    newNode = Node(0)
+    currentNode = newNode
+
+    while firstList is not None or secondListReversed is not None:
+
+        if firstList:
+            currentNode.next = firstList
+            currentNode = currentNode.next
+            firstList = firstList.next
+
+        if secondListReversed:
+            currentNode.next = secondListReversed
+            currentNode = currentNode.next
+            secondListReversed = secondListReversed.next
+
+    # the head of the new linkedList
+    return newNode.next
