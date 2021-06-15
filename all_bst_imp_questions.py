@@ -822,3 +822,28 @@ def sumOfNodesAtMaxDepth(root):
                 queue.append(node.right)
 
     return sum
+
+'''
+    Given a tree, check if all the leaves are at same level.
+    Idea is simple, calculate the height of one leaf, if all the leaves have the same height then
+    return true, else false.
+'''
+def checkSameHeight(root):
+    return checkSameHeightHelper(root, 0, 0)
+
+def checkSameHeightHelper(root, currentHeight, height):
+    if root is None:
+        return True
+
+    if root.left is None and root.right is None:
+        # when the leaf node is found for the first time
+        if height == 0:
+            height = currentHeight
+            return True
+        else:
+            return height == currentHeight
+	
+    left = checkSameHeightHelper(root.left, currentHeight + 1, height)
+    right = checkSameHeightHelper(root.right, currentHeight + 1, height)
+
+    return left and right
