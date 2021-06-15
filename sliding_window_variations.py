@@ -145,24 +145,53 @@ def longestSubstringAllUniqueChars(string):
 
     return maxLength
 
+'''
+    We have to find the sum of min and max element in every window of k and return the max sum.
+    Idea is, create the 2 deques, one deque for maintaining the max elements and one for min
+    elements.
+'''
 
+def maxSumOFMinMaxOfK(array, k):
+    minQueue = deque()
+    maxQueue = deque()
 
+    for i in range(k):
 
+        # remove all the elements which are not potential candidate for being the max in the
+        # current window
+        if maxQueue and array[ maxQueue[0] ] <= array[i]:
+            maxQueue.popleft()
 
+        # remove all the elements which are not potential candidate for being the min in the
+        # current window
+        if minQueue and array[ minQueue[0] ] >= array[i]:
+            minQueue.popleft()
 
+        maxQueue.append(i)
+        minQueue.append(i)
 
+    maxSum = float("-inf")
+    
+    for i in range(k, len(array)):
 
+        # sum of min and max of first window of size k
+        currentSum = array[ maxQueue[0] ] + array[ minQueue[0] ]
+        maxSum = max( maxSum, currentSum )
 
+        # remove all the elements from both the queues which do not belong to the current window
+        if maxQueue and maxQueue[0] <= (i - k):
+            maxQueue.popleft()
 
+        if minQueue and minQueue[0] <= (i - k):
+            minQueue.popleft()
 
+        if maxQueue and array[ maxQueue[0] ] <= array[i]:
+            maxQueue.popleft()
 
+        if minQueue and array[ minQueue[0] ] >= array[i]:
+            minQueue.popleft()
 
+        maxQueue.append(i)
+        minQueue.append(i)
 
-
-
-
-
-
-
-
-
+    return maxSum
