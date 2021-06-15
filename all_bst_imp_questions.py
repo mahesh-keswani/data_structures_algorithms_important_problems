@@ -793,3 +793,32 @@ def rootToLeafSum(root, val = 0):
 
     val = ( val * 10 ) + root.value
     return rootToLeafSum(root.left, val) + rootToLeafSum(root.right, val)
+
+'''
+    We have to find the sum of all the nodes at the maximum depth.
+
+    Idea is: Just perform the bfs, for every level, initialize the sum as 0 and calculate the sum.
+    When the last level is completely traversed, the sum of all nodes at max depth will be stored
+    in sum.
+'''
+def sumOfNodesAtMaxDepth(root):
+    queue = [root]
+
+    sum = 0
+    while queue:
+        # we are basically calculating sum for every level, when the last level is completely
+        # traversed, sum will be caluclated and queue will be empty.
+        sum = 0
+        size = len(queue)
+
+        for i in range(size):
+            node = queue.pop(0)
+            sum += node.value
+
+            if node.left:
+                queue.append(node.left)
+
+            if node.right:
+                queue.append(node.right)
+
+    return sum
