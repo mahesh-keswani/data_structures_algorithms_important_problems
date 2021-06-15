@@ -829,21 +829,26 @@ def sumOfNodesAtMaxDepth(root):
     return true, else false.
 '''
 def checkSameHeight(root):
-    return checkSameHeightHelper(root, 0, 0)
+    # for storing the height of the tree
+    treeHeight = {'height': 0}
+    return checkSameHeightHelper(root, 0, treeHeight)
 
-def checkSameHeightHelper(root, currentHeight, height):
+def checkSameHeightHelper(root, currentHeight, treeHeight):
     if root is None:
         return True
 
     if root.left is None and root.right is None:
-        # when the leaf node is found for the first time
-        if height == 0:
-            height = currentHeight
+
+        # when the leaf node is reached for the first time
+        if treeHeight['height'] == 0:
+            treeHeight['height'] = currentHeight
             return True
         else:
-            return height == currentHeight
-	
-    left = checkSameHeightHelper(root.left, currentHeight + 1, height)
-    right = checkSameHeightHelper(root.right, currentHeight + 1, height)
+            return currentHeight == treeHeight['height']
+
+    # if the leaf is not reached, check for the left and right subtrees
+    left = checkSameHeightHelper(root.left, currentHeight + 1, treeHeight)
+    right = checkSameHeightHelper(root.right, currentHeight + 1, treeHeight)
 
     return left and right
+        
