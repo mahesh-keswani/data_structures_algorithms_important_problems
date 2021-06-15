@@ -365,7 +365,32 @@ def bookAllocation(arr, k):
             
     return result
 
+def medianOfTwoSortedArrays(array1, array2, start_a, end_a, start_b, end_b):
 
+    # when the number of elements in both the array are 2
+    if (end_a - start_a == 1) and (end_b - start_b == 1):
+        median = ( max( array1[start_a], array2[start_b] ) + min( array1[end_a] + array2[end_b] ) ) / 2
+        return median
+    
+    # indices of the medians of two arrays
+    m1 = (start_a + end_a) // 2
+    m2 = (start_b + end_b) // 2
 
+    # if the median of both the arrays are same, then the median of two sorted arrays will also be same
+    if array1[m1] == array2[m2]:
+        return array[m1]
 
+    # if the median of array1 is less than median of array2
+    # then, ignore the a1,a2...,m1 (first half of array1)
+    # and ignore second half of array2
+    elif array1[m1] < array2[m2]:
+        start_a = m1
+        end_b = m2
+    else:
+        # median of array2 < median of array1
+        # then ignore first half of array2 and ignore second half of array1
+        start_b = m2
+        end_a = m1
 
+    return medianOfTwoSortedArrays(array1, array2, start_a, end_a, start_b, end_b)
+ 
