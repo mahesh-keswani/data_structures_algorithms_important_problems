@@ -116,7 +116,7 @@ def longestStringWithKUniqueChars(string, k):
     return maxLenght
 
 def longestSubstringAllUniqueChars(string):
-    charCount = {a:1, b:1, c:1}
+    charCount = {}
     i, j = 0, 0
     maxLength = -float("inf")
     # abcad
@@ -131,16 +131,19 @@ def longestSubstringAllUniqueChars(string):
         # at every time check, if len of dictionary is less than window size, then character has occured which is repeated
         # in substring, so we have to start decreasing window until it is equal = len(dictionary)
         # i.e all the characters in window size are unique
-        if len(charCount) < (j - i + 1):
-            while len(charCount) != (j - i + 1):
-                charCount[ string[i] ] -= 0
-
+        windowSize = j - i + 1
+        if len(charCount) == windowSize:
+            maxLength = max( maxLength, windowSize )
+        elif len(charCount) < windowSize:
+            while len(dictionary) != (j - i + 1):
+                charCount[ string[i] ] -= 1
+                
                 if charCount[ string[i] ] == 0:
                     del charCount[ string[i] ]
-                i += 1
                 
-        maxLength = max( maxLength, j - i )
-
+                i += 1
+            
+            maxLength = max( maxLength, j - i + 1 )
         j += 1
 
     return maxLength
