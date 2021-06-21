@@ -222,6 +222,48 @@ matrix = [
 
 convertOsToXWhichAreCompletelySurroundedByX(matrix)
 
+def wordSearch(board, word):
+    rows = len(board)
+    cols = len(board[0])
 
+    if rows == 0 or cols == 0:
+        return False
 
+    visited = [ [False for col in range(cols)] for row in range(rows)]
+    isFound = False
+    for i in range(rows):
+        for j in range(cols):
+            isFound = explore(i, j, board, visited, rows, cols, word, 0)
 
+            if isFound:
+                return True
+
+    return False
+
+def isValidPosition(i, j, rows, cols):
+    return 0 <= i < rows and 0 <= j < cols
+
+def explore(x, y, board, visited, rows, cols, word, idx):
+    if visited[x][y]:
+        return
+
+    letter = board[x][y]
+    if letter != word[idx]:
+        return False
+
+    visited[x][y] = True
+    
+    if idx == (len(word) - 1):
+        return True
+
+    dx = [-1, 0, 1, 0]
+    dy = [0, 1, 0, -1]
+
+    for i in range(4):
+        newX = x + dx[i]
+        newY = y + dy[i]
+
+        if isValidPosition(newX, newY, rows, cols):
+            explore(newX, newY, board, visited, rows, cols, word, idx + 1)
+            
+    visited[x][y] = False
