@@ -15,14 +15,14 @@ class Graph:
     def union(self, parent, rank, x, y, rootx, rooty):
         
         if rank[rootx] > rank[rooty]:
-            parent[y] = x
-            rank[x] += rank[y]
+            parent[rooty] = rootx
+            rank[rootx] += rank[rooty]
         elif rank[rootx] < rank[rooty]:
-            parent[x] = y
-            rank[y] += rank[x]
+            parent[rootx] = rooty
+            rank[rooty] += rank[rootx]
         else:
-            parent[y] = x
-            rank[x] += rank[y]
+            parent[rooty] = rootx
+            rank[rootx] += rank[rooty]
 
     def kruskalMST(self):
         parent = [i for i in range(self.v)]
