@@ -37,3 +37,39 @@ def multiplyLargeNumbers(s1, s2):
     # print the result
     for digit in reversed(result):
         print(digit, end = '')
+
+        
+'''
+    We can break this problem of fourNumberSum (x + y) + (z + k) = targetSum into two-sum problem.
+    Say P = (x + y) and Q = (z + k), then we just have to find all (P + Q) which can sum to targetSum.
+    But we have to make sure that we don't include same quadruplets multiple times with different order.
+    For this, Idea is, for every index in array, first we will go to its right and calculate P and Q,
+    if we found a targetSum, the for every pair which generated Q, we will form the quadruplets.
+'''
+
+def fourNumberSum(array, targetSum):
+    allPairSums = {}
+    result = []
+
+    for i in range(1, len(array)):
+        
+        for j in range(i+1, len(array)):
+            P = array[i] + array[j]
+            Q = targetSum - P
+
+            if Q in allPairSums:
+                # a single sum can be found by multiple pairs in the array.
+                # say array = [1, 3, -1, 4, 0] and say Q=4, then in dictionary
+                # dictionary[4] = [ [1,3], [4,0] ]
+                for pair in allPairSums[Q]:
+                    result.append( pair + [P, Q] )
+
+        for k in range(0, i):
+            P = array[i] + array[k]
+
+            if P not in allPairSums:
+                allPairSum[P] = [ [array[i], array[k]] ]
+            else:
+                allPairSums[P].append( [array[i], array[k]] )
+
+    return result
