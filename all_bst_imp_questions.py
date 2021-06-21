@@ -851,4 +851,46 @@ def checkSameHeightHelper(root, currentHeight, treeHeight):
     right = checkSameHeightHelper(root.right, currentHeight + 1, treeHeight)
 
     return left and right
-        
+'''
+	Idea is, first we will collect all the paths in the stack and once the leaf is reached, we will traverse the path backwards, and check continously if the
+	sum is equal to k, if yes, then we will store the path from ith index to end of stack in result. (as we are traversing backwards)
+'''
+def kPathSums( root, k ):
+	result = []
+	kPathSumsHelper( root, k, [], result )
+	return result
+
+def kPathSumsHelper( root, k, stack, result ):
+	if root is None:
+		return
+	
+	# perform inorder traversal
+	stack.append( root )
+	kPathSumsHelper( root.left, k, stack, result )
+	
+	# if leaf is reached
+	if root.left is None and root.right is None:
+		currentSum = 0
+		for i in range(len(stack) - 1, -1, -1):
+			currentSum = currentSum + stack[i]
+			
+			if currentSum == k:
+				# store the path from i to end in result
+				result.append( stack[i:] )
+			
+			# Don't break the break as there might be negative numbers which may again lead to sum as k
+	
+	kPathSumsHelper( root.right, k, stack, result )
+	
+	# once the element is completely processed, remove it from stack
+	stack.pop()
+
+
+
+
+
+
+
+
+
+
