@@ -134,3 +134,43 @@ array = [ 1, 1, 2, 7, 6 ]
 target = 8
 
 print( combinationSums(array, target) )
+
+def zigzagTraverse(matrix):
+    height = len(matrix) - 1
+    width = len(matrix[0]) - 1
+
+    row, col = 0, 0
+    goingDown = True
+    result = []
+
+    while isValidPosition(row, col, width, height):
+        result.append( matrix[row][col] )
+        
+        if goingDown:
+            if col == 0 or row == height:
+                goingDown = False
+                if row == height:
+                    col += 1
+                else:
+                    row += 1
+            else:
+                row += 1
+                col -= 1
+        else:
+            if row == 0 or col == width:
+                goingDown = True
+                if col == width:
+                    row += 1
+                else:
+                    col += 1
+            else:
+                row -= 1
+                col += 1
+
+    return result
+
+def isValidPosition(row, col, width, height):
+    return 0 <= row <= height and 0 <= col <= width 
+
+
+
