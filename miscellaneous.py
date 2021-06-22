@@ -105,28 +105,32 @@ def permutationsHelper( array, currentPermutations, permutations ):
         # passing the newArray, newPermutations and final list of permutations
         permutationsHelper( newArray, newPermutation, permutations )
 
+def combinationSums(array, target):
+    result = set()
+    findCombinations( array, target, 0, [], result )
+    return result
 
+def findCombinations(array, target, index, current, result):
+    # i.e if the elements of the currentCombinations sums to target
+    # since we cannot add the list to the set, therefore first convert it to tuple.
+    if target == 0:
+        result.add( tuple(current[:] )) 
+        return
 
+    # if the elements in the currentcombinations sums greater than target
+    if target < 0:
+        return
 
+    for i in range(index, len(array)):
+        # first add the element in the combination and check if we can add more elements which sums
+        # to target-element, we simulated the adding of element in the current combination
+        current.append( array[i] )
+        findCombinations( array, target - array[i], i+1, current, result )
 
+        # now remove the last element added and try again for other combination
+        current.pop( len(current) - 1 )
 
+array = [ 1, 1, 2, 7, 6 ]
+target = 8
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print( combinationSums(array, target) )
