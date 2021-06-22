@@ -73,3 +73,60 @@ def fourNumberSum(array, targetSum):
                 allPairSums[P].append( [array[i], array[k]] )
 
     return result
+
+'''
+    Idea is, remove one element from array and store remaining elements in new array (we don't modify
+    the original array), and the removed element in the current permutation. We will remove element
+    every time from new array, and when finally the new array will be empty, that is one permutation
+    is formed, so store it in the final permutations list.
+'''
+
+def getPermutations(array):
+    permutations = []
+    permutationsHelper( array, [], permutations )
+    return permutations
+
+def permutationsHelper( array, currentPermutations, permutations ):
+
+    # if the currentArray is empty and we have elements in the currenPermutation, then store it
+    # permutations. The second check was necessary because, if the input to the program is empty array
+    # then we would have stored in permutations = [ [] ], we don't want to do that.
+    if len(array) == 0 and len(currentPermutations):
+        permutations.append( currentPermutation )
+
+    for i in range(0, len(array) -1):
+        # removing the ith element, and storing the remaining elements in newArray
+        newArray = array[:i] + array[i+1:]
+
+        # creating the newPermutation list because, if we modify the same currentPermutation, then
+        # things will not go as thought of.
+        newPermutation = currentPermutation + [ array[i] ]
+
+        # passing the newArray, newPermutations and final list of permutations
+        permutationsHelper( newArray, newPermutation, permutations )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
