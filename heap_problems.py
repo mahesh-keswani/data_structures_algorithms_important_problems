@@ -261,5 +261,48 @@ class MinHeap:
             return self.heap[0]
         return -1
 
+'''
+    Min platforms required.
 
+    Idea is, we will sort the trains based on their arrival time and add (departureTime, 1) in
+    minHeap, ( second parameter indicates number of platform for current train ).
 
+    Now if new train comes, we will compare arrival time of new train with the departure time of root.
+    If arrivalTime < departureTime, then we will increase the platform, else remove root of heap,
+    and assign the previous platform to the newTrain.
+'''
+
+import heapq as heap
+
+# trains = [ [arrivalTimeForTrain1, departureTimeForTrain1], [arrivalTimeForTrain2, departureTimeForTrain2]... ]
+def minPlatforms( trains ):
+
+    # sort based on the arrival time
+    trains.sort( key = lambda x: x[0] )
+
+    nPlatforms = 1
+    minHeap = []
+
+    # [departureTime, platform]
+    heap.heappush( minHeap, [trains[0][1], 1] )
+
+    for i in range(1, len(trains)):
+        train = trains[i]
+        
+        arrivalTime = train[0]
+        departureTime = train[1]
+
+        # if the arrivalTime is smaller than departureTime of previous train, then simply
+        # increase the nPlatforms
+        if arrivalTime <= minHeap[0][0]:
+            nPlatforms += 1
+            heap.heappush( minHeap, [departureTime, nPlatforms] )
+        else:
+
+            # if arrivalTime > departureTime of previous train, then we can simply assign the
+            # previous platform to the current train
+
+            departureTimeOfPrevTrain, platform = heap.heappop( minHeap )
+            heap.heapPush( minHeap, [departureTime, platform] )
+
+    return nPlatforms
