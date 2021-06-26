@@ -388,3 +388,104 @@ def addTwoNumbersAsLinkedList(head1, head2):
     # get the actual sum
     resultHead = reverse(newHead)
     return resultHead
+
+'''
+    Idea is, first we will find the length of both numbers, (456, 23 | in this case 3, 2), then
+    compute the difference of length (in example, diff=1) (make sure that first list is larger one),
+    then move `diff` steps ahead in first list and start adding the nodes (i.e start adding 56 and 23),
+    using recursion.
+'''
+
+def calSum(head1, head2, data):
+    # i.e we have reached the end of the lists
+    if head1 is None:
+        return
+
+    # recursively store the nodes on the call stack
+    calSum(head1.next, head2.next, data)
+    
+    curSum = data['carry'] + head1.value + head2.value
+
+    # update the carry
+    data['carry'] = curSum // 10
+
+    newNode = Node(curSum % 10)
+
+    # this result will be head of our sum list
+    if data['result'] is None:
+        data['result'] = newNode
+    else:
+        newNode.next = data['result']
+        data['result'] = newNode
+        
+def getLength(head):
+    if head is None:
+        return 0
+
+    count = 0
+    temp = head
+
+    while temp:
+        count += 1
+        temp = temp.next
+
+    return count
+
+def addRestNodes(head, temp, data):
+    # go upto the difference number of nodes
+    if head.next == temp:
+        return
+
+    addRestNodes(head.next, temp, data)
+
+    curSum = data['carry'] + head.value
+
+    newNode = Node(curSum % 10)
+    data['carry'] = curSum // 10
+
+    newNode.next = data['result']
+    data['result'] = newNode
+    
+def addLists(head1, head2):
+    first = head1
+    second = head2
+    
+    n1 = getLength(first)
+    n2 = getLength(second)
+    
+    data = {"result": None, "carry": 0}
+    
+    if n1 == n2:
+        calSum(first, second, data)
+    else:
+
+        # if the first list is smaller than the second list, then swap the pointers
+        # so that first always points to larger list.
+        if n1 < n2:
+            first, second = second, first
+
+        # calculate the difference in length
+        difference = abs(n1 - n2)
+
+        # now move the `difference` steps ahead 
+        temp = first
+        while difference > 0:
+            temp = temp.next
+            difference -= 1
+
+        # now temp will point to (d+1)th node
+        # now from (d+1) to n1, the length = n2
+        # i.e calculate sum (56, 23) in case of (456, 23)
+        calSum(temp, second, data)
+
+        # now if there are nodes remaining in the list1, then add them into result
+        addRestNodes(first, temp, data)
+        
+
+    if data['carry']:
+        newNode = Node(data['carry'])
+        newNode.next = data['result']
+        data['result'] = newNode
+
+
+    return data['result']
