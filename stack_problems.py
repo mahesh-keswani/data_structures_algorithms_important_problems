@@ -552,3 +552,23 @@ class MinStackWithConstantSpace:
 
         return self.minElement
 
+def balancedParenthesis(expression):
+    stack = []
+
+    for char in expression:
+        if char == '(' or char == '[' or char == '{':
+            stack.append( char )
+            
+        elif char == ')':
+            if stack and stack.pop() != '(':
+                return False
+
+        elif char == ']':
+            if stack and stack.pop() != '[':
+                return False
+
+        elif char == '}':
+            if stack and stack.pop() != '{':
+                return False
+
+    return True
