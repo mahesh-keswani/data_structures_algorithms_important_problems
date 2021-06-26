@@ -185,10 +185,46 @@ def generateAllSubsetsHelper(string, current, allCombinations):
 
     # don't include the first character into the current
     generateAllSubsetsHelper(reducedString, current, allCombinations)
-    
-    
 
 def generateAllSubsets(string):
     allCombinations = []
     generateAllSubsetsHelper(string, '', allCombinations)
     return allCombinations
+
+
+'''
+    Idea is, we will traverse both the strings from right to left, and sum them, if carry is generated
+    then pass it to the next iteration.
+'''
+def addStrings(s1, s2):
+    i = len(s1) - 1
+    j = len(s2) - 1
+
+    carry = 0
+    result = ''
+    while i >= 0 or j >= 0:
+        # curSum = carry + s1[i] + s2[j]
+        curSum = carry
+
+        if i >= 0:
+            curSum += ( ord( s1[i] ) - ord('0') )
+            i -= 1
+
+        if j >= 0:
+            curSum += ( ord(s2[j]) - ord('0') )
+            j -= 1
+
+        # update the carry
+        carry = curSum // 10
+
+        # get the digit
+        curSum = curSum % 10
+
+        # append it to the result
+        result += str(curSum)
+
+    # if at the end carry is > 0
+    if carry:
+        result += str(carry)
+
+    return result[::-1]
