@@ -323,3 +323,68 @@ def rearrange(head):
 
     # the head of the new linkedList
     return newNode.next
+
+'''
+    Idea is, we will reverse both the numbers (linked list) and start adding the nodes one by one,
+    if carry is generated, then pass on to the next sum, and at the end you will get the whole sum,
+    but in the reverse order, so again reverse it.
+    There is one edge case, if both the linked list are empty and still carry is non-zero, then
+    add it to the result as well, before reversing. (e.g 99 + 1)
+'''
+
+def reverse(head):
+    if head is None:
+        return None
+
+    p1 = None
+    p2 = head
+
+    while p2 is not None:
+        p3 = p2.next
+        p2.next = p1
+        p1 = p2
+        p2 = p3
+
+    return p1
+
+def addTwoNumbersAsLinkedList(head1, head2):
+    first = reverse(head1)
+    second = reverse(head2)
+
+    carry = 0
+    
+    # for creating new list
+    newHead, prev = None, None
+    
+    while first or second:
+        # curSum = carry + first.value + second.value
+        curSum = carry
+        if first:
+            curSum += first.value
+            first = first.next
+
+        if second:
+            curSum += second.value
+            second = second.next
+
+        carry = curSum // 10
+        curSum = curSum % 10
+
+        newNode = Node(curSum)
+        
+        if newHead is None:
+            newHead = newNode
+        else:
+            prev.next = newNode
+
+        prev = newNode
+
+    # at the end if carry exist
+    if carry:
+        newNode = Node(carry)
+        prev.next = newNode
+        prev = newNode
+
+    # get the actual sum
+    resultHead = reverse(newHead)
+    return resultHead
