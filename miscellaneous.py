@@ -1,43 +1,35 @@
-# reference: https://www.geeksforgeeks.org/multiply-large-numbers-represented-as-strings/
-def multiplyLargeNumbers(s1, s2):
+def f(n):
+    return ord(n) - ord('0')
+
+def multiplyStrings(s1, s2):
     n1 = len(s1)
     n2 = len(s2)
 
-    # to store the result in the reverse order
-    result = [0] * (n1+n2)
+    result = [0] * (n1 + n2)
 
-    iForS1 = 0
-
-    # traverse the s1, s2 backwards
     for i in range(n1-1, -1, -1):
-        carry = 0
-        iForS2 = 0
-
         for j in range(n2-1, -1, -1):
 
-            # Multiply with current digit of first number 
-            # and add result to previously stored result
-            # at current position.
-            currentSum = int(s1[i]) * int(s2[j]) + result[iForS1 + iForS2] + carry
+            # multiply two digits
+            mul = f(s1[i]) * f(s2[j])
 
-            # Carry for next iteration
-            carry = currentSum // 10
+            # add the current multplication with the previous intermediate result
+            # at the same position
+            curSum = result[i + j + 1] + mul
 
-            # store the result
-            result[iForS1 + iForS2] = currentSum % 10
+            # add the carry to the previous position
+            result[i + j] += curSum // 10
 
-            iForS2 += 1
+            # finally add the digit to the current position
+            result[i + j + 1] = curSum % 10
 
-        # at the end, if carry is generated, then store it in result
-        if carry > 0:
-            result[iForS1 + iForS2] += carry
+    resultString = ''
+    for val in result:
+        # inorder to remove any leading zeros
+        if len(resultString) != 0 or val != 0:
+            resultString += val
 
-        iForS1 += 1
-        
-    # print the result
-    for digit in reversed(result):
-        print(digit, end = '')
-
+    return resultString
         
 '''
     We can break this problem of fourNumberSum (x + y) + (z + k) = targetSum into two-sum problem.
