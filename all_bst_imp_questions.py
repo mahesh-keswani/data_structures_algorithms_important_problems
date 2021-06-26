@@ -886,7 +886,27 @@ def kPathSumsHelper( root, k, stack, result ):
 	stack.pop()
 
 
+def replaceNodeWithSumOfItsDescendents(root):
 
+    if root is None:
+        return 0
+
+    # if the node is leaf, we don't want to do anything, just pass it's value to the parent
+    if root.left is None and root.right:
+        return root.value
+
+    # store the value of the root, as it is going to be updated and we have to pass it's value
+    # to the parent as well.
+    nodeValue = root.value
+
+    # basically doing postorder traversal
+    leftSum = replaceNodeWithSumOfItsDescendents(root.left)
+    rightSum = replaceNodeWithSumOfItsDescendents(root.right)
+
+    # update the node with sum of its left and right subtrees
+    root.value = leftSum + rightSum
+
+    return nodeValue + root.value
 
 
 
