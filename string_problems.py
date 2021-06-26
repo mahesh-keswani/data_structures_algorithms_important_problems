@@ -167,3 +167,28 @@ def checkIfOneStringIsSubsetOfOther(s1, s2):
 
     # if j == -1 at the end, i.e all characters of s2 found in s1, else s2 is not subset of s1
     return j == -1
+
+
+def generateAllSubsetsHelper(string, current, allCombinations):
+    if len(string) == 0:
+        allCombinations.append( current )
+        return
+
+    # add the first character of the string to the newCurrent
+    newCurrent = current + string[0]
+
+    # newString becomes
+    reducedString = string[1:]
+
+    # include the first character into the current
+    generateAllSubsetsHelper(reducedString, newCurrent, allCombinations)
+
+    # don't include the first character into the current
+    generateAllSubsetsHelper(reducedString, current, allCombinations)
+    
+    
+
+def generateAllSubsets(string):
+    allCombinations = []
+    generateAllSubsetsHelper(string, '', allCombinations)
+    return allCombinations
