@@ -572,3 +572,41 @@ def balancedParenthesis(expression):
                 return False
 
     return True
+
+'''
+    Idea is, we will push everything into the stack except for the closing parenthesis, when it is
+    reached, we will pop the elements from the stack till we get the opening parenthesis.
+    While popping we will check, if we got some operator, if no then the parenthesis is redundant
+    else we will continue checking.
+
+    Expression can be like ((a + b))
+'''
+def redunduntParenthesis(expression):
+    stack = []
+    operators = ['+', '-', '*', '/']
+    
+    for char in expression:
+        if char != ')':
+            stack.append( char )
+
+        else:
+
+            gotOperator = False
+
+            while stack and stack[-1] != '(':
+                poppedChar = stack.pop()
+
+                if poppedChar in operators:
+                    gotOperator = True
+
+            # when we reached the opening parenthesis, the loop terminated and that opening
+            # parenthesis is still in the stack, so pop it.
+            stack.pop()
+
+            # if we were not able to find the operator, return True i.e the expression contains
+            # redundunt parenthesis
+            if not gotOperator:
+                return True
+
+    # i.e expression do not contain any redundunt parenthesis
+    return False
