@@ -207,3 +207,28 @@ def convertNumberToWords(n):
         And we can continue for larger numbers
     '''
 
+'''
+    We have to do (a*b) % n, but direct a*b can cause overflow, so Idea is, represent this in
+    different way: (a*b) = (2*a) * (b/2), if b is even
+                         = a + a*(b-1), if b is odd
+
+    One Formula for (a*b) % n = ( (a%n) * (b%n) ) % n, but for large numbers of (a%n) and
+    (b%n), multiplication can cause overflow, therefore use above method.
+'''
+
+def abModn(a, b, n):
+    a = a % n
+    result = 0
+    
+    while b > 0:
+        # if b is odd, a will get added only for the odd b
+        if (b & 1):
+            result = ( result + a ) % n
+
+        # if b is even 
+        a = (2 * a) % n
+
+        # right shift b by 1, i.e b = b // 2
+        b = b >> 1
+
+    return result % n
