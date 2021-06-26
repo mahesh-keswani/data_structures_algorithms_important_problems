@@ -173,4 +173,37 @@ def isValidPosition(row, col, width, height):
     return 0 <= row <= height and 0 <= col <= width 
 
 
+'''
+    Reference: https://www.geeksforgeeks.org/convert-number-to-words/
+'''
+
+def convertNumberToWords(n):
+    if n < 0:
+        return "Minus {}".format(-n)
+
+    ones = ["zero", "one", "two",   "three", "four", "five", "six", "seven", "eight", "nine",
+            "ten",      "eleven",  "twelve", "thirteen",  "fourteen", "fifteen", "sixteen",
+            "seventeen", "eighteen", "nineteen"]
+
+    tens = ["", "",  "twenty", "thirty", "forty",   "fifty",
+            "sixty",  "seventy", "eighty", "ninety" ]
+
+    if n < 20:
+        return ones[n]
+
+    if n < 100:
+        string = tens[ n // 10 ] + " " + ones[ n % 10 ]
+        return string
+
+    if n < 1000:
+        string = ones[ n // 100 ] + " hundred and " + convertNumberToWords(n % 100)
+        return string
+
+    if n < 10000:
+        string = ones[ n // 1000 ] + " thousand " + convertNumberToWords(n % 1000)
+        return string
+
+    '''
+        And we can continue for larger numbers
+    '''
 
