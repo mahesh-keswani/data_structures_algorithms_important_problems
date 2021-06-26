@@ -141,3 +141,29 @@ def minCutsPartitioningToMakePalindrome(string):
                 cuts[i] = cuts[j] + 1
 
     return cuts[-1]
+
+'''
+    Idea is, we will keep two pointers, one at the end of s1 and one at end of s2. if the character
+    is matched, then decrement both the pointers, else decrement first pointer.
+    If at the end, second pointer is -1, i.e we have found s2 in s1, else not found
+'''
+def checkIfOneStringIsSubsetOfOther(s1, s2):
+    i = len(s1) - 1
+    j = len(s2) - 1
+
+    # i.e length of s1 is smaller than length of s2, then s2 cannot be subset of s1
+    if i < j:
+        return False
+        
+    while i >= 0 and j >= 0:
+        s1Char = s1[i]
+        s2Char = s2[j]
+
+        if s1Char == s2Char:
+            i -= 1
+            j -= 1
+        else:
+            i -= 1
+
+    # if j == -1 at the end, i.e all characters of s2 found in s1, else s2 is not subset of s1
+    return j == -1
